@@ -28,7 +28,7 @@ export function HeroSection() {
       <div className="hero-content">
         <div
           className="hero-3d-stage hero-3d-stage-premium"
-          aria-label="3D royal code core"
+          aria-label="3D Narmer unification engine"
         >
           <KingdomScene />
         </div>
