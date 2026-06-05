@@ -1,0 +1,85 @@
+export function HeroSection() {
+  return (
+    <section className="royal-hero" aria-labelledby="hero-title">
+      <div className="hero-background">
+        <div className="hero-orb hero-orb-gold" />
+        <div className="hero-orb hero-orb-blue" />
+        <div className="hero-grid" />
+      </div>
+
+      <header className="hero-header">
+        <a className="brand-lockup" href="/">
+          <span className="brand-mark">KN</span>
+          <span>
+            <strong>KING NARMAR</strong>
+            <small>Software Solutions</small>
+          </span>
+        </a>
+
+        <nav className="hero-nav" aria-label="Main navigation">
+          <a href="#services">Services</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <div className="hero-content">
+        <p className="hero-kicker">The Kingdom of Code</p>
+
+        <h1 id="hero-title">
+          Build Systems.
+          <span>Rule The Chaos.</span>
+        </h1>
+
+        <p className="hero-copy">
+          KING NARMAR SOFTWARE SOLUTIONS builds smart business systems,
+          automation tools, dashboards, and custom software that turn daily
+          operational chaos into controlled workflows.
+        </p>
+
+        <div className="hero-actions">
+          <a className="primary-button" href="#projects">
+            Enter The Kingdom
+          </a>
+
+          <a className="secondary-button" href="https://github.com/KingNarmar" target="_blank" rel="noreferrer">
+            View GitHub
+          </a>
+        </div>
+
+        <div className="hero-stats" aria-label="Brand capabilities">
+          <article>
+            <strong>3D</strong>
+            <span>Interactive Web</span>
+          </article>
+
+          <article>
+            <strong>AI</strong>
+            <span>Automation Ready</span>
+          </article>
+
+          <article>
+            <strong>ERP</strong>
+            <span>Business Logic</span>
+          </article>
+        </div>
+      </div>
+
+      <div className="royal-console" aria-label="Code preview">
+        <div className="console-topbar">
+          <span />
+          <span />
+          <span />
+        </div>
+
+        <pre>
+          <code>{`kingnarmar.init({
+  brand: "KING NARMAR",
+  mission: "Build smart systems",
+  status: "Ready for the next level"
+});`}</code>
+        </pre>
+      </div>
+    </section>
+  )
+}
