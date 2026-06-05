@@ -6,22 +6,29 @@ The goal is to build a premium, interactive website that presents software servi
 
 > The Kingdom of Code
 
+## Live Website
+
+Production website: <https://kingnarmar.com>
+
 ## Tech Stack
 
 - Vite
 - React
 - TypeScript
 - CSS
-- Three.js / React Three Fiber later
+- Three.js / React Three Fiber
 
 ## Current Status
 
-Issue #1 is focused on project foundation:
+The first MVP is deployed on Cloudflare Pages and connected to the custom domain.
 
-- Clean default Vite starter files
-- Create initial project structure
-- Add basic brand introduction
-- Prepare the project for the first landing page
+Completed MVP sections:
+
+- Hero section with temporary 3D pyramid
+- Services section
+- Projects section
+- Contact section with real links
+- Custom domain and SSL enabled
 
 ## Scripts
 
@@ -31,4 +38,3 @@ npm run build
 npm run lint
 npm run preview
 ```
-
