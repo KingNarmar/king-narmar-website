@@ -1,5 +1,10 @@
 import "./ContactSection.css";
 
+const WHATSAPP_URL = "https://wa.me/971581255496";
+const LINKEDIN_URL = "https://www.linkedin.com/in/mina-bushra-733993317/";
+const GITHUB_URL = "https://github.com/KingNarmar";
+const EMAIL_URL = "mailto:megamarkter@gmail.com";
+
 type ContactChannel = {
   label: string;
   value: string;
@@ -10,29 +15,29 @@ type ContactChannel = {
 const CONTACT_CHANNELS: ContactChannel[] = [
   {
     label: "WhatsApp",
-    value: "Start a quick conversation",
-    href: "#",
+    value: "+971 58 125 5496",
+    href: WHATSAPP_URL,
     description:
       "Best for direct project inquiries, quick questions, and fast business communication.",
   },
   {
     label: "LinkedIn",
-    value: "Connect professionally",
-    href: "#",
+    value: "Mina Bushra",
+    href: LINKEDIN_URL,
     description:
       "Best for recruiters, partnerships, business updates, and professional networking.",
   },
   {
     label: "GitHub",
-    value: "View the code journey",
-    href: "https://github.com/KingNarmar",
+    value: "KingNarmar",
+    href: GITHUB_URL,
     description:
       "Explore repositories, experiments, public code, and ongoing product development.",
   },
   {
     label: "Email",
     value: "megamarkter@gmail.com",
-    href: "mailto:megamarkter@gmail.com",
+    href: EMAIL_URL,
     description:
       "Best for detailed proposals, formal requests, collaboration, and business discussions.",
   },
@@ -40,7 +45,11 @@ const CONTACT_CHANNELS: ContactChannel[] = [
 
 export function ContactSection() {
   return (
-    <section className="contact-section" id="contact" aria-labelledby="contact-title">
+    <section
+      className="contact-section"
+      id="contact"
+      aria-labelledby="contact-title"
+    >
       <div className="contact-background">
         <div className="contact-orb contact-orb-gold" />
         <div className="contact-orb contact-orb-blue" />
@@ -52,21 +61,28 @@ export function ContactSection() {
 
           <h2 id="contact-title">
             Let&apos;s turn your
-            <span className="premium-gradient-text">workflow into a system.</span>
+            <span className="premium-gradient-text">
+              workflow into a system.
+            </span>
           </h2>
 
           <p className="contact-lead">
-            Whether you need a business system, a dashboard, a Flutter app, or an
-            automation tool, KING NARMAR SOFTWARE SOLUTIONS can help turn the idea
-            into a clear, usable, and scalable digital product.
+            Whether you need a business system, a dashboard, a Flutter app, or
+            an automation tool, KING NARMAR SOFTWARE SOLUTIONS can help turn the
+            idea into a clear, usable, and scalable digital product.
           </p>
 
           <div className="contact-primary-actions">
-            <a className="btn btn-primary" href="#">
+            <a
+              className="btn btn-primary"
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
               Start On WhatsApp
             </a>
 
-            <a className="btn btn-secondary" href="mailto:megamarkter@gmail.com">
+            <a className="btn btn-secondary" href={EMAIL_URL}>
               Send Email
             </a>
           </div>
