@@ -9,7 +9,7 @@ export function HeroSection() {
         <div className="hero-grid" />
       </div>
 
-      <header className="hero-header">
+      <header className="hero-header glass-panel">
         <a className="brand-lockup" href="/">
           <span className="brand-mark">KN</span>
           <span>
@@ -59,24 +59,24 @@ export function HeroSection() {
         </div>
 
         <div className="hero-stats" aria-label="Brand capabilities">
-          <article>
+          <article className="glass-card">
             <strong>3D</strong>
             <span>Interactive Web</span>
           </article>
 
-          <article>
+          <article className="glass-card">
             <strong>AI</strong>
             <span>Automation Ready</span>
           </article>
 
-          <article>
+          <article className="glass-card">
             <strong>ERP</strong>
             <span>Business Logic</span>
           </article>
         </div>
       </div>
 
-      <div className="royal-console" aria-label="Code preview">
+      <div className="royal-console glass-panel glass-panel-blue" aria-label="Code preview">
         <div className="console-topbar">
           <span />
           <span />
