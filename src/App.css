@@ -182,37 +182,6 @@
   gap: 16px;
 }
 
-.primary-button,
-.secondary-button {
-  min-width: 176px;
-  padding: 15px 24px;
-  border-radius: 999px;
-  font-weight: 900;
-  text-decoration: none;
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease;
-}
-
-.primary-button {
-  color: #07080d;
-  background: linear-gradient(135deg, var(--color-gold), #fff1a8);
-  border: 1px solid rgba(255, 215, 128, 0.85);
-  box-shadow: 0 20px 70px rgba(212, 175, 55, 0.25);
-}
-
-.secondary-button {
-  color: var(--color-text);
-  background: rgba(255, 255, 255, 0.065);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-.primary-button:hover,
-.secondary-button:hover {
-  transform: translateY(-3px);
-}
-
 .hero-stats {
   width: min(760px, 100%);
   margin: 42px auto 0;
@@ -361,10 +330,5 @@
 
   .hero-stats {
     grid-template-columns: 1fr;
-  }
-
-  .primary-button,
-  .secondary-button {
-    width: 100%;
   }
 }

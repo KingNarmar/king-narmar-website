@@ -1,4 +1,4 @@
-import { KingdomScene } from '../components/three/KingdomScene'
+import { KingdomScene } from "../components/three/KingdomScene";
 
 export function HeroSection() {
   return (
@@ -9,9 +9,9 @@ export function HeroSection() {
         <div className="hero-grid" />
       </div>
 
-      <header className="hero-header">
+      <header className="hero-header glass-panel">
         <a className="brand-lockup" href="/">
-          <span className="brand-mark">KN</span>
+          <span className="brand-mark glow-gold">KN</span>
           <span>
             <strong>KING NARMAR</strong>
             <small>Software Solutions</small>
@@ -26,15 +26,15 @@ export function HeroSection() {
       </header>
 
       <div className="hero-content">
-        <div className="hero-3d-stage" aria-label="3D royal code core">
+        <div className="hero-3d-stage hero-3d-stage-premium" aria-label="3D royal code core">
           <KingdomScene />
         </div>
 
-        <p className="hero-kicker">The Kingdom of Code</p>
+        <p className="hero-kicker glass-pill">The Kingdom of Code</p>
 
         <h1 id="hero-title">
           Build Systems.
-          <span>Rule The Chaos.</span>
+          <span className="premium-gradient-text">Rule The Chaos.</span>
         </h1>
 
         <p className="hero-copy">
@@ -44,34 +44,39 @@ export function HeroSection() {
         </p>
 
         <div className="hero-actions">
-          <a className="primary-button" href="#projects">
+          <a className="btn btn-primary" href="#projects">
             Enter The Kingdom
           </a>
 
-          <a className="secondary-button" href="https://github.com/KingNarmar" target="_blank" rel="noreferrer">
+          <a
+            className="btn btn-secondary"
+            href="https://github.com/KingNarmar"
+            target="_blank"
+            rel="noreferrer"
+          >
             View GitHub
           </a>
         </div>
 
         <div className="hero-stats" aria-label="Brand capabilities">
-          <article>
+          <article className="glass-card glow-blue">
             <strong>3D</strong>
             <span>Interactive Web</span>
           </article>
 
-          <article>
+          <article className="glass-card glow-gold">
             <strong>AI</strong>
             <span>Automation Ready</span>
           </article>
 
-          <article>
+          <article className="glass-card glow-blue">
             <strong>ERP</strong>
             <span>Business Logic</span>
           </article>
         </div>
       </div>
 
-      <div className="royal-console" aria-label="Code preview">
+      <div className="royal-console glass-panel glass-panel-blue" aria-label="Code preview">
         <div className="console-topbar">
           <span />
           <span />
@@ -87,5 +92,5 @@ export function HeroSection() {
         </pre>
       </div>
     </section>
-  )
+  );
 }
