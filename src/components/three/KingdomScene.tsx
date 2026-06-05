@@ -1,123 +1,137 @@
-import { Float, Html, OrbitControls, Stars, useGLTF } from "@react-three/drei";
+import { Float, OrbitControls, Stars } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Suspense, useEffect, useRef } from "react";
-import type { Group } from "three";
-import { Mesh } from "three";
+import { useMemo, useRef } from "react";
+import {
+  CanvasTexture,
+  RepeatWrapping,
+  SRGBColorSpace,
+  type Mesh,
+} from "three";
 
-const MODEL_PATH = "/models/narmer-temp/cow_head_statue.glb";
+const PYRAMID_RADIUS = 1.35;
+const PYRAMID_HEIGHT = 2.15;
 
-/**
- * Quick visual controls:
- * - لو الموديل كبير/صغير: عدّل MODEL_SCALE
- * - لو عالي/واطي: عدّل MODEL_POSITION_Y
- * - لو مش مواجه الكاميرا: عدّل MODEL_ROTATION_Y
- */
-const MODEL_SCALE = 1.9;
-const MODEL_POSITION_Y = -1.35;
-const MODEL_ROTATION_Y = 0;
+function createPyramidBrickTexture() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 512;
+  canvas.height = 512;
 
-function NarmerTemporaryModel() {
-  const modelRef = useRef<Group>(null);
-  const { scene } = useGLTF(MODEL_PATH);
+  const context = canvas.getContext("2d");
 
-  useEffect(() => {
-    scene.traverse((object) => {
-      if (object instanceof Mesh) {
-        object.castShadow = true;
-        object.receiveShadow = true;
-      }
-    });
-  }, [scene]);
+  if (!context) {
+    return new CanvasTexture(canvas);
+  }
 
-  useFrame((_, delta) => {
-    if (!modelRef.current) return;
+  const gradient = context.createLinearGradient(0, 0, 512, 512);
+  gradient.addColorStop(0, "#f8e7a1");
+  gradient.addColorStop(0.38, "#d4af37");
+  gradient.addColorStop(1, "#7c5c13");
 
-    modelRef.current.rotation.y += delta * 0.22;
-  });
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, canvas.width, canvas.height);
 
-  return (
-    <Float speed={1.15} rotationIntensity={0.22} floatIntensity={0.65}>
-      <group
-        ref={modelRef}
-        position={[0, MODEL_POSITION_Y, 0]}
-        rotation={[0, MODEL_ROTATION_Y, 0]}
-        scale={MODEL_SCALE}
-      >
-        <primitive object={scene} />
-      </group>
-    </Float>
-  );
+  context.globalAlpha = 0.16;
+  context.fillStyle = "#2f2400";
+
+  for (let i = 0; i < 1200; i += 1) {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    const size = Math.random() * 2.2;
+
+    context.fillRect(x, y, size, size);
+  }
+
+  context.globalAlpha = 0.34;
+  context.strokeStyle = "#5f450b";
+  context.lineWidth = 3;
+
+  const rowHeight = 48;
+  const brickWidth = 92;
+
+  for (let y = rowHeight; y < canvas.height; y += rowHeight) {
+    context.beginPath();
+    context.moveTo(0, y);
+    context.lineTo(canvas.width, y);
+    context.stroke();
+  }
+
+  context.globalAlpha = 0.28;
+  context.lineWidth = 2;
+
+  for (let row = 0; row < canvas.height / rowHeight; row += 1) {
+    const yStart = row * rowHeight;
+    const yEnd = yStart + rowHeight;
+    const offset = row % 2 === 0 ? 0 : brickWidth / 2;
+
+    for (let x = -brickWidth; x < canvas.width + brickWidth; x += brickWidth) {
+      context.beginPath();
+      context.moveTo(x + offset, yStart);
+      context.lineTo(x + offset, yEnd);
+      context.stroke();
+    }
+  }
+
+  context.globalAlpha = 0.28;
+  context.strokeStyle = "#fff2b8";
+  context.lineWidth = 1;
+
+  for (let y = rowHeight; y < canvas.height; y += rowHeight) {
+    context.beginPath();
+    context.moveTo(0, y - 2);
+    context.lineTo(canvas.width, y - 2);
+    context.stroke();
+  }
+
+  const texture = new CanvasTexture(canvas);
+  texture.colorSpace = SRGBColorSpace;
+  texture.wrapS = RepeatWrapping;
+  texture.wrapT = RepeatWrapping;
+  texture.repeat.set(1.35, 1.35);
+  texture.needsUpdate = true;
+
+  return texture;
 }
 
-function HolographicRings() {
-  const ringRef = useRef<Group>(null);
+function RoyalPyramid() {
+  const pyramidRef = useRef<Mesh>(null);
+  const brickTexture = useMemo(() => createPyramidBrickTexture(), []);
 
   useFrame((_, delta) => {
-    if (!ringRef.current) return;
+    if (!pyramidRef.current) return;
 
-    ringRef.current.rotation.z += delta * 0.18;
+    pyramidRef.current.rotation.y += delta * 0.42;
   });
 
   return (
-    <group ref={ringRef} position={[0, -0.04, -0.2]}>
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[1.55, 0.012, 12, 140]} />
+    <Float speed={1.25} rotationIntensity={0.2} floatIntensity={0.62}>
+      <mesh
+        ref={pyramidRef}
+        position={[0, -0.08, 0]}
+        rotation={[0, Math.PI / 4, 0]}
+      >
+        <coneGeometry args={[PYRAMID_RADIUS, PYRAMID_HEIGHT, 4, 1]} />
         <meshStandardMaterial
-          color="#38bdf8"
-          emissive="#38bdf8"
-          emissiveIntensity={0.45}
-          transparent
-          opacity={0.82}
-        />
-      </mesh>
-
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[2.08, 0.01, 12, 160]} />
-        <meshStandardMaterial
+          map={brickTexture}
           color="#d4af37"
-          emissive="#d4af37"
-          emissiveIntensity={0.4}
-          transparent
-          opacity={0.68}
+          metalness={0.7}
+          roughness={0.28}
+          emissive="#2f2400"
+          emissiveIntensity={0.18}
         />
       </mesh>
-    </group>
-  );
-}
-
-function ModelLoader() {
-  return (
-    <Html center>
-      <span
-        style={{
-          color: "#d4af37",
-          fontFamily: "monospace",
-          fontSize: "0.72rem",
-          letterSpacing: "0.18em",
-          textTransform: "uppercase",
-          whiteSpace: "nowrap",
-        }}
-      >
-        Loading royal model...
-      </span>
-    </Html>
+    </Float>
   );
 }
 
 export function KingdomScene() {
   return (
-    <Canvas shadows camera={{ position: [0, 0.18, 5.2], fov: 38 }}>
+    <Canvas camera={{ position: [0, 0, 5], fov: 42 }}>
       <color attach="background" args={["#05060a"]} />
 
-      <ambientLight intensity={0.88} />
-      <directionalLight
-        castShadow
-        position={[3.6, 4.4, 4.8]}
-        intensity={2.45}
-      />
-      <pointLight position={[-4, -1.8, 3]} intensity={2.8} color="#38bdf8" />
-      <pointLight position={[3, -2.6, 2.4]} intensity={1.9} color="#d4af37" />
-      <pointLight position={[0, 2.4, 2.8]} intensity={1.45} color="#f8e7a1" />
+      <ambientLight intensity={0.78} />
+      <directionalLight position={[4, 5, 5]} intensity={2.25} />
+      <pointLight position={[-4, -2, 3]} intensity={2.5} color="#38bdf8" />
+      <pointLight position={[3, -3, 2]} intensity={1.7} color="#d4af37" />
 
       <Stars
         radius={80}
@@ -126,23 +140,18 @@ export function KingdomScene() {
         factor={4}
         saturation={0}
         fade
-        speed={0.42}
+        speed={0.5}
       />
 
-      <HolographicRings />
-
-      <Suspense fallback={<ModelLoader />}>
-        <NarmerTemporaryModel />
-      </Suspense>
+      <RoyalPyramid />
 
       <OrbitControls
         enableZoom={false}
         enablePan={false}
-        autoRotate
-        autoRotateSpeed={0.45}
+        enableRotate
+        autoRotate={false}
+        rotateSpeed={0.7}
       />
     </Canvas>
   );
 }
-
-useGLTF.preload(MODEL_PATH);
