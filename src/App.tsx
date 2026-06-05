@@ -1,4 +1,5 @@
 import "./App.css";
+import { ContactSection } from "./sections/ContactSection";
 import { HeroSection } from "./sections/HeroSection";
 import { ProjectsSection } from "./sections/ProjectsSection";
 import { ServicesSection } from "./sections/ServicesSection";
@@ -9,6 +10,7 @@ function App() {
       <HeroSection />
       <ServicesSection />
       <ProjectsSection />
+      <ContactSection />
     </main>
   );
 }
