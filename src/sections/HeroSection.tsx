@@ -1,3 +1,5 @@
+import { KingdomScene } from '../components/three/KingdomScene'
+
 export function HeroSection() {
   return (
     <section className="royal-hero" aria-labelledby="hero-title">
@@ -24,6 +26,10 @@ export function HeroSection() {
       </header>
 
       <div className="hero-content">
+        <div className="hero-3d-stage" aria-label="3D royal code core">
+          <KingdomScene />
+        </div>
+
         <p className="hero-kicker">The Kingdom of Code</p>
 
         <h1 id="hero-title">
