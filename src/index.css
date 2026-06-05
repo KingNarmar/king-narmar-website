@@ -1,6 +1,7 @@
 @import "./styles/theme.css";
 @import "./styles/buttons.css";
 @import "./styles/glass.css";
+@import "./styles/effects.css";
 
 :root {
   font-family: var(--font-sans);
