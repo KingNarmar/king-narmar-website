@@ -1,4 +1,4 @@
-import { KingdomScene } from '../components/three/KingdomScene'
+import { KingdomScene } from "../components/three/KingdomScene";
 
 export function HeroSection() {
   return (
@@ -44,11 +44,16 @@ export function HeroSection() {
         </p>
 
         <div className="hero-actions">
-          <a className="primary-button" href="#projects">
+          <a className="btn btn-primary" href="#projects">
             Enter The Kingdom
           </a>
 
-          <a className="secondary-button" href="https://github.com/KingNarmar" target="_blank" rel="noreferrer">
+          <a
+            className="btn btn-secondary"
+            href="https://github.com/KingNarmar"
+            target="_blank"
+            rel="noreferrer"
+          >
             View GitHub
           </a>
         </div>
@@ -87,5 +92,5 @@ export function HeroSection() {
         </pre>
       </div>
     </section>
-  )
+  );
 }

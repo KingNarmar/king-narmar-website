@@ -1,5 +1,6 @@
 @import "./styles/theme.css";
 
+@import "./styles/buttons.css";
 :root {
   font-family: var(--font-sans);
   color: var(--color-text);
