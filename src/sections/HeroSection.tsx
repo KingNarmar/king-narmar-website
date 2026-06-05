@@ -1,5 +1,5 @@
+import { InteractiveTerminal } from "../components/terminal/InteractiveTerminal";
 import { KingdomScene } from "../components/three/KingdomScene";
-
 export function HeroSection() {
   return (
     <section className="royal-hero" aria-labelledby="hero-title">
@@ -26,7 +26,10 @@ export function HeroSection() {
       </header>
 
       <div className="hero-content">
-        <div className="hero-3d-stage hero-3d-stage-premium" aria-label="3D royal code core">
+        <div
+          className="hero-3d-stage hero-3d-stage-premium"
+          aria-label="3D royal code core"
+        >
           <KingdomScene />
         </div>
 
@@ -47,6 +50,8 @@ export function HeroSection() {
           <a className="btn btn-primary" href="#projects">
             Enter The Kingdom
           </a>
+
+          <InteractiveTerminal />
 
           <a
             className="btn btn-secondary"
@@ -76,7 +81,10 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="royal-console glass-panel glass-panel-blue" aria-label="Code preview">
+      <div
+        className="royal-console glass-panel glass-panel-blue"
+        aria-label="Code preview"
+      >
         <div className="console-topbar">
           <span />
           <span />
