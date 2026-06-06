@@ -1,22 +1,41 @@
+import { lazy, Suspense } from "react";
 import "./App.css";
-import { ConfirmEmailPage } from "./pages/ConfirmEmailPage";
 import { MinaSystemAccountDeletionPage } from "./pages/MinaSystemAccountDeletionPage";
 import { MinaSystemPrivacyPolicyPage } from "./pages/MinaSystemPrivacyPolicyPage";
-import { ResetPasswordPage } from "./pages/ResetPasswordPage";
 import { ContactSection } from "./sections/ContactSection";
 import { HeroSection } from "./sections/HeroSection";
 import { ProjectsSection } from "./sections/ProjectsSection";
 import { ServicesSection } from "./sections/ServicesSection";
 
+const ConfirmEmailPage = lazy(() =>
+  import("./pages/ConfirmEmailPage").then((module) => ({
+    default: module.ConfirmEmailPage,
+  })),
+);
+
+const ResetPasswordPage = lazy(() =>
+  import("./pages/ResetPasswordPage").then((module) => ({
+    default: module.ResetPasswordPage,
+  })),
+);
+
 function App() {
   const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
 
   if (currentPath === "/reset-password") {
-    return <ResetPasswordPage />;
+    return (
+      <Suspense fallback={<PageLoadingFallback />}>
+        <ResetPasswordPage />
+      </Suspense>
+    );
   }
 
   if (currentPath === "/confirm-email") {
-    return <ConfirmEmailPage />;
+    return (
+      <Suspense fallback={<PageLoadingFallback />}>
+        <ConfirmEmailPage />
+      </Suspense>
+    );
   }
 
   if (currentPath === "/mina-system/privacy-policy") {
@@ -33,6 +52,23 @@ function App() {
       <ServicesSection />
       <ProjectsSection />
       <ContactSection />
+    </main>
+  );
+}
+
+function PageLoadingFallback() {
+  return (
+    <main
+      style={{
+        minHeight: "100vh",
+        display: "grid",
+        placeItems: "center",
+        background: "#050812",
+        color: "#f8fafc",
+        fontFamily: "Inter, Arial, sans-serif",
+      }}
+    >
+      Loading...
     </main>
   );
 }
