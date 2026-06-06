@@ -3,7 +3,8 @@ import "./ContactSection.css";
 const WHATSAPP_URL = "https://wa.me/971581255496";
 const LINKEDIN_URL = "https://www.linkedin.com/in/mina-bushra-733993317/";
 const GITHUB_URL = "https://github.com/KingNarmar";
-const EMAIL_URL = "mailto:megamarkter@gmail.com";
+const EMAIL_URL = "mailto:contact@kingnarmar.com";
+const SUPPORT_EMAIL_URL = "mailto:support@kingnarmar.com";
 
 type ContactChannel = {
   label: string;
@@ -35,11 +36,18 @@ const CONTACT_CHANNELS: ContactChannel[] = [
       "Explore repositories, experiments, public code, and ongoing product development.",
   },
   {
-    label: "Email",
-    value: "megamarkter@gmail.com",
+    label: "Business Email",
+    value: "contact@kingnarmar.com",
     href: EMAIL_URL,
     description:
       "Best for detailed proposals, formal requests, collaboration, and business discussions.",
+  },
+  {
+    label: "Support Email",
+    value: "support@kingnarmar.com",
+    href: SUPPORT_EMAIL_URL,
+    description:
+      "Best for existing clients, product support, follow-ups, and technical assistance.",
   },
 ];
 
