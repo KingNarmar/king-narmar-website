@@ -1,9 +1,10 @@
 import "./App.css";
+import { ConfirmEmailPage } from "./pages/ConfirmEmailPage";
+import { ResetPasswordPage } from "./pages/ResetPasswordPage";
 import { ContactSection } from "./sections/ContactSection";
 import { HeroSection } from "./sections/HeroSection";
 import { ProjectsSection } from "./sections/ProjectsSection";
 import { ServicesSection } from "./sections/ServicesSection";
-import { ResetPasswordPage } from "./pages/ResetPasswordPage";
 
 function App() {
   const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
@@ -11,7 +12,9 @@ function App() {
   if (currentPath === "/reset-password") {
     return <ResetPasswordPage />;
   }
-
+  if (currentPath === "/confirm-email") {
+    return <ConfirmEmailPage />;
+  }
   return (
     <main className="app-shell">
       <HeroSection />
