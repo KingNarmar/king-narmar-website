@@ -1,0 +1,82 @@
+.horus-auth-page {
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(212, 175, 55, 0.26),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(56, 189, 248, 0.2),
+      transparent 30%
+    ),
+    linear-gradient(135deg, #05060a 0%, #0f172a 54%, #020617 100%);
+}
+
+.horus-auth-page .auth-card {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(56, 189, 248, 0.18);
+}
+
+.horus-auth-page .auth-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(circle at top right, black, transparent 70%);
+}
+
+.horus-auth-page .auth-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.horus-auth-page .auth-logo {
+  background: linear-gradient(135deg, var(--color-gold), var(--color-blue));
+  color: #05060a;
+  letter-spacing: -0.06em;
+}
+
+.horus-auth-page .auth-kicker {
+  color: var(--color-blue);
+}
+
+.horus-auth-page .auth-card h1 span {
+  display: block;
+  background: linear-gradient(135deg, #ffffff, var(--color-gold), var(--color-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.horus-auth-page .auth-form input:focus {
+  border-color: rgba(56, 189, 248, 0.72);
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.14);
+}
+
+.horus-auth-page .auth-form button,
+.horus-auth-page .auth-link-button {
+  background: linear-gradient(135deg, var(--color-gold), var(--color-blue));
+}
+
+.auth-help-card {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.62);
+  color: #94a3b8;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.auth-help-card strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #e2e8f0;
+}
