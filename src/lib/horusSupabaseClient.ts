@@ -7,6 +7,12 @@ export const isHorusSupabaseConfigured = Boolean(
   horusSupabaseUrl && horusSupabaseAnonKey,
 );
 
-export const horusSupabase = isHorusSupabaseConfigured
-  ? createClient(horusSupabaseUrl, horusSupabaseAnonKey)
-  : null;
+function createHorusSupabaseClient() {
+  if (!horusSupabaseUrl || !horusSupabaseAnonKey) {
+    return null;
+  }
+
+  return createClient(horusSupabaseUrl, horusSupabaseAnonKey);
+}
+
+export const horusSupabase = createHorusSupabaseClient();
