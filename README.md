@@ -29,6 +29,38 @@ Completed MVP sections:
 - Projects section
 - Contact section with real links
 - Custom domain and SSL enabled
+- Mina System privacy and account deletion pages
+- Mina System auth confirmation and reset password pages
+- H.O.R.U.S System auth confirmation and reset password pages
+
+## Auth Link Pages
+
+Mina System routes:
+
+- `/confirm-email`
+- `/reset-password`
+
+H.O.R.U.S System routes:
+
+- `/horus/confirm`
+- `/horus/confirm-email`
+- `/horus/reset-password`
+
+## Environment Variables
+
+Mina System Supabase auth pages use:
+
+```bash
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+```
+
+H.O.R.U.S System Supabase auth pages use:
+
+```bash
+VITE_HORUS_SUPABASE_URL=
+VITE_HORUS_SUPABASE_ANON_KEY=
+```
 
 ## Scripts
 
