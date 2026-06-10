@@ -19,6 +19,18 @@ const ResetPasswordPage = lazy(() =>
   })),
 );
 
+const HorusConfirmEmailPage = lazy(() =>
+  import("./pages/HorusConfirmEmailPage").then((module) => ({
+    default: module.HorusConfirmEmailPage,
+  })),
+);
+
+const HorusResetPasswordPage = lazy(() =>
+  import("./pages/HorusResetPasswordPage").then((module) => ({
+    default: module.HorusResetPasswordPage,
+  })),
+);
+
 function App() {
   const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
 
@@ -34,6 +46,25 @@ function App() {
     return (
       <Suspense fallback={<PageLoadingFallback />}>
         <ConfirmEmailPage />
+      </Suspense>
+    );
+  }
+
+  if (
+    currentPath === "/horus/confirm" ||
+    currentPath === "/horus/confirm-email"
+  ) {
+    return (
+      <Suspense fallback={<PageLoadingFallback />}>
+        <HorusConfirmEmailPage />
+      </Suspense>
+    );
+  }
+
+  if (currentPath === "/horus/reset-password") {
+    return (
+      <Suspense fallback={<PageLoadingFallback />}>
+        <HorusResetPasswordPage />
       </Suspense>
     );
   }
