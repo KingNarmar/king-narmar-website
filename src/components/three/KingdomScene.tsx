@@ -1,19 +1,15 @@
 import { Float, OrbitControls, Stars } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
-import {
-  ExtrudeGeometry,
-  Shape,
-  type ExtrudeGeometryOptions,
-  type Group,
-  type Vector2Tuple,
-} from "three";
+import { ExtrudeGeometry, Shape, type Group } from "three";
+
+type Point2D = [number, number];
 
 const LOGO_DEPTH = 0.22;
 const LOGO_BEVEL_SIZE = 0.045;
 const LOGO_BEVEL_THICKNESS = 0.04;
 
-const EXTRUDE_SETTINGS: ExtrudeGeometryOptions = {
+const EXTRUDE_SETTINGS = {
   depth: LOGO_DEPTH,
   bevelEnabled: true,
   bevelSegments: 3,
@@ -21,7 +17,7 @@ const EXTRUDE_SETTINGS: ExtrudeGeometryOptions = {
   bevelThickness: LOGO_BEVEL_THICKNESS,
 };
 
-function createExtrudedShape(points: Vector2Tuple[]) {
+function createExtrudedShape(points: Point2D[]) {
   const shape = new Shape();
   const [firstPoint, ...restPoints] = points;
 
