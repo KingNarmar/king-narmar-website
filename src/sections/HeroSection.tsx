@@ -21,6 +21,7 @@ export function HeroSection() {
         <nav className="hero-nav" aria-label="Main navigation">
           <a href="#services">Services</a>
           <a href="#projects">Projects</a>
+          <a href="/start-project">Start Project</a>
           <a href="#contact">Contact</a>
         </nav>
       </header>
@@ -47,11 +48,15 @@ export function HeroSection() {
         </p>
 
         <div className="hero-actions">
-          <a className="btn btn-primary" href="#projects">
-            Enter The Kingdom
+          <a className="btn btn-primary" href="/start-project">
+            Start Your Project
           </a>
 
           <InteractiveTerminal />
+
+          <a className="btn btn-secondary" href="#projects">
+            View Projects
+          </a>
 
           <a
             className="btn btn-secondary"
