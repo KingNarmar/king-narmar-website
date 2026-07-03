@@ -5,16 +5,16 @@ import { ExtrudeGeometry, Shape, type Group } from "three";
 
 type Point2D = [number, number];
 
-const LOGO_DEPTH = 0.22;
-const LOGO_BEVEL_SIZE = 0.045;
-const LOGO_BEVEL_THICKNESS = 0.04;
+const CROWN_DEPTH = 0.24;
+const CROWN_BEVEL_SIZE = 0.045;
+const CROWN_BEVEL_THICKNESS = 0.04;
 
 const EXTRUDE_SETTINGS = {
-  depth: LOGO_DEPTH,
+  depth: CROWN_DEPTH,
   bevelEnabled: true,
-  bevelSegments: 3,
-  bevelSize: LOGO_BEVEL_SIZE,
-  bevelThickness: LOGO_BEVEL_THICKNESS,
+  bevelSegments: 4,
+  bevelSize: CROWN_BEVEL_SIZE,
+  bevelThickness: CROWN_BEVEL_THICKNESS,
 };
 
 function createExtrudedShape(points: Point2D[]) {
@@ -35,109 +35,142 @@ function createExtrudedShape(points: Point2D[]) {
   return geometry;
 }
 
-function useRoyalLogoGeometries() {
+function useCrownGeometries() {
   return useMemo(
     () => ({
-      crown: createExtrudedShape([
-        [-1.55, 1.12],
-        [-1.23, 1.86],
-        [-0.54, 1.36],
-        [0, 2.12],
-        [0.54, 1.36],
-        [1.23, 1.86],
-        [1.55, 1.12],
-        [1.34, 0.92],
-        [-1.34, 0.92],
+      body: createExtrudedShape([
+        [-1.8, -0.48],
+        [-1.45, 0.82],
+        [-0.78, 0.18],
+        [0, 1.72],
+        [0.78, 0.18],
+        [1.45, 0.82],
+        [1.8, -0.48],
       ]),
-      crownBase: createExtrudedShape([
-        [-1.38, 0.88],
-        [1.38, 0.88],
-        [1.25, 0.66],
-        [-1.25, 0.66],
+      upperBand: createExtrudedShape([
+        [-1.82, -0.55],
+        [1.82, -0.55],
+        [1.68, -0.28],
+        [-1.68, -0.28],
       ]),
-      leftPillar: createExtrudedShape([
-        [-1.08, 0.52],
-        [-0.74, 0.52],
-        [-0.74, -1.24],
-        [-0.94, -1.42],
-        [-1.08, -1.26],
+      lowerBand: createExtrudedShape([
+        [-1.92, -0.9],
+        [1.92, -0.9],
+        [1.72, -0.55],
+        [-1.72, -0.55],
       ]),
-      centerPillar: createExtrudedShape([
-        [-0.58, 0.52],
-        [-0.24, 0.52],
-        [-0.24, -1.42],
-        [-0.4, -1.6],
-        [-0.58, -1.42],
+      centerGem: createExtrudedShape([
+        [0, 0.36],
+        [0.22, -0.02],
+        [0, -0.4],
+        [-0.22, -0.02],
       ]),
-      upperK: createExtrudedShape([
-        [-0.08, 0.18],
-        [0.76, 0.56],
-        [1.02, 0.44],
-        [0.18, -0.2],
-      ]),
-      lowerK: createExtrudedShape([
-        [-0.03, -0.36],
-        [0.76, -1.22],
-        [1.04, -1.08],
-        [0.2, -0.12],
-      ]),
-      rightUpperChevron: createExtrudedShape([
-        [0.86, 0.12],
-        [1.32, 0.42],
-        [1.54, 0.3],
-        [1.05, -0.08],
-      ]),
-      rightLowerChevron: createExtrudedShape([
-        [0.84, -0.42],
-        [1.34, -0.84],
-        [1.56, -0.7],
-        [1.05, -0.2],
-      ]),
-      lowerShard: createExtrudedShape([
-        [-0.05, -1.2],
-        [0.38, -1.68],
-        [0.02, -1.86],
+      bandGem: createExtrudedShape([
+        [0, -0.6],
+        [0.14, -0.78],
+        [0, -0.96],
+        [-0.14, -0.78],
       ]),
     }),
     [],
   );
 }
 
-function RoyalLogoMark() {
-  const logoRef = useRef<Group>(null);
-  const geometries = useRoyalLogoGeometries();
+function CrownFinial({ position }: { position: [number, number, number] }) {
+  return (
+    <mesh position={position} castShadow receiveShadow>
+      <sphereGeometry args={[0.1, 28, 28]} />
+      <meshStandardMaterial
+        color="#ffe27a"
+        metalness={0.98}
+        roughness={0.1}
+        emissive="#7a5200"
+        emissiveIntensity={0.2}
+      />
+    </mesh>
+  );
+}
+
+function CrownDrape({ position }: { position: [number, number, number] }) {
+  return (
+    <mesh position={position} rotation={[0, 0, Math.PI]} castShadow receiveShadow>
+      <torusGeometry args={[0.42, 0.035, 18, 80, Math.PI]} />
+      <meshStandardMaterial
+        color="#ffe27a"
+        metalness={0.98}
+        roughness={0.1}
+        emissive="#7a5200"
+        emissiveIntensity={0.16}
+      />
+    </mesh>
+  );
+}
+
+function RoyalCrown() {
+  const crownRef = useRef<Group>(null);
+  const geometries = useCrownGeometries();
 
   useFrame((_, delta) => {
-    if (!logoRef.current) return;
+    if (!crownRef.current) return;
 
-    logoRef.current.rotation.y += delta * 0.32;
+    crownRef.current.rotation.y += delta * 0.3;
   });
 
   return (
     <Float speed={1.2} rotationIntensity={0.16} floatIntensity={0.58}>
       <group
-        ref={logoRef}
+        ref={crownRef}
         position={[0, -0.08, 0]}
         rotation={[-0.08, -0.28, 0]}
-        scale={1.12}
+        scale={1.08}
       >
-        {Object.entries(geometries).map(([name, geometry], index) => (
-          <mesh
-            geometry={geometry}
-            key={name}
-            position={[0, 0, index * 0.006]}
-            castShadow
-            receiveShadow
-          >
-            <meshStandardMaterial
-              color="#d4af37"
-              metalness={0.92}
-              roughness={0.18}
-              emissive="#5f3f00"
-              emissiveIntensity={0.18}
-            />
-          </mesh>
-        ))}
+        <mesh geometry={geometries.body} position={[0, -0.02, 0]} castShadow receiveShadow>
+          <meshStandardMaterial
+            color="#d4af37"
+            metalness={0.96}
+            roughness={0.14}
+            emissive="#5f3f00"
+            emissiveIntensity={0.18}
+          />
+        </mesh>
+
+        <mesh geometry={geometries.upperBand} position={[0, 0, 0.18]} castShadow receiveShadow>
+          <meshStandardMaterial color="#ffe27a" metalness={0.98} roughness={0.1} />
+        </mesh>
+
+        <mesh geometry={geometries.lowerBand} position={[0, 0, 0.23]} castShadow receiveShadow>
+          <meshStandardMaterial
+            color="#d4af37"
+            metalness={0.96}
+            roughness={0.14}
+            emissive="#5f3f00"
+            emissiveIntensity={0.14}
+          />
+        </mesh>
+
+        <mesh position={[0, -0.95, 0.15]} rotation={[Math.PI / 2, 0, 0]} castShadow receiveShadow>
+          <torusGeometry args={[1.42, 0.09, 24, 120]} />
+          <meshStandardMaterial color="#8a5a08" metalness={0.9} roughness={0.22} />
+        </mesh>
+
+        <mesh geometry={geometries.centerGem} position={[0, -0.02, 0.32]} castShadow receiveShadow>
+          <meshStandardMaterial color="#ffe27a" metalness={0.98} roughness={0.08} />
+        </mesh>
+
+        <mesh geometry={geometries.bandGem} position={[0, 0, 0.36]} castShadow receiveShadow>
+          <meshStandardMaterial color="#ffe27a" metalness={0.98} roughness={0.08} />
+        </mesh>
+
+        <CrownDrape position={[-1.18, 0.42, 0.26]} />
+        <CrownDrape position={[-0.4, 0.66, 0.28]} />
+        <CrownDrape position={[0.4, 0.66, 0.28]} />
+        <CrownDrape position={[1.18, 0.42, 0.26]} />
+
+        <CrownFinial position={[-1.45, 0.86, 0.3]} />
+        <CrownFinial position={[-0.78, 0.22, 0.3]} />
+        <CrownFinial position={[0, 1.72, 0.3]} />
+        <CrownFinial position={[0.78, 0.22, 0.3]} />
+        <CrownFinial position={[1.45, 0.86, 0.3]} />
       </group>
     </Float>
   );
@@ -145,13 +178,13 @@ function RoyalLogoMark() {
 
 export function KingdomScene() {
   return (
-    <Canvas camera={{ position: [0, 0, 5], fov: 42 }}>
+    <Canvas camera={{ position: [0, 0, 5], fov: 42 }} shadows>
       <color attach="background" args={["#05060a"]} />
 
-      <ambientLight intensity={0.78} />
-      <directionalLight position={[4, 5, 5]} intensity={2.25} />
+      <ambientLight intensity={0.72} />
+      <directionalLight position={[4, 5, 5]} intensity={2.55} />
       <pointLight position={[-4, -2, 3]} intensity={2.5} color="#38bdf8" />
-      <pointLight position={[3, -3, 2]} intensity={1.7} color="#d4af37" />
+      <pointLight position={[3, -3, 2]} intensity={2.0} color="#d4af37" />
 
       <Stars
         radius={80}
@@ -163,7 +196,7 @@ export function KingdomScene() {
         speed={0.5}
       />
 
-      <RoyalLogoMark />
+      <RoyalCrown />
 
       <OrbitControls
         enableZoom={false}
