@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import "./App.css";
 import { MinaSystemAccountDeletionPage } from "./pages/MinaSystemAccountDeletionPage";
 import { MinaSystemPrivacyPolicyPage } from "./pages/MinaSystemPrivacyPolicyPage";
+import { StartProjectPage } from "./pages/StartProjectPage";
 import { ContactSection } from "./sections/ContactSection";
 import { HeroSection } from "./sections/HeroSection";
 import { ProjectsSection } from "./sections/ProjectsSection";
@@ -75,6 +76,10 @@ function App() {
 
   if (currentPath === "/mina-system/account-deletion") {
     return <MinaSystemAccountDeletionPage />;
+  }
+
+  if (currentPath === "/start-project") {
+    return <StartProjectPage />;
   }
 
   return (
