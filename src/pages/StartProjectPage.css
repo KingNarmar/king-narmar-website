@@ -1,6 +1,6 @@
 .start-project-page {
   min-height: 100vh;
-  padding: 28px;
+  padding: 22px 28px 0;
   position: relative;
   isolation: isolate;
   overflow-x: hidden;
@@ -47,7 +47,7 @@
 }
 
 .start-project-header {
-  width: min(1180px, 100%);
+  width: min(1440px, 100%);
   margin: 0 auto;
   padding: 14px 16px;
   display: flex;
@@ -78,65 +78,66 @@
 }
 
 .start-project-form-page {
-  width: min(980px, 100%);
+  width: min(1440px, 100%);
   margin: 0 auto;
-  padding: clamp(54px, 8vw, 96px) 0 80px;
+  padding: 24px 0 40px;
 }
 
 .start-project-form-heading {
-  margin: 0 auto 28px;
-  text-align: center;
+  margin: 0 0 16px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  border-radius: 24px;
 }
 
 .start-project-kicker {
-  width: fit-content;
-  margin: 0 auto 18px;
-  padding: 10px 16px;
-  border: 1px solid rgba(212, 175, 55, 0.34);
-  border-radius: var(--radius-pill);
+  margin: 0 0 8px;
   color: var(--color-gold);
-  background: rgba(212, 175, 55, 0.08);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.24em;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
 .start-project-form-heading h1 {
   margin: 0;
   color: #ffffff;
-  font-size: clamp(2.8rem, 8vw, 6.6rem);
+  font-size: clamp(2rem, 4vw, 4rem);
   line-height: 0.9;
-  letter-spacing: -0.08em;
+  letter-spacing: -0.07em;
   text-transform: uppercase;
 }
 
-.start-project-form-heading p {
-  width: min(780px, 100%);
-  margin: 24px auto 0;
+.start-project-form-heading p:last-child {
+  width: min(660px, 100%);
+  margin: 0;
   color: rgba(248, 250, 252, 0.86);
-  font-size: clamp(1rem, 2vw, 1.14rem);
-  line-height: 1.8;
+  line-height: 1.7;
 }
 
 .start-project-form-card {
-  padding: clamp(10px, 2vw, 18px);
-  border-radius: 32px;
-  overflow: hidden;
+  min-height: calc(100vh - 150px);
+  padding: 0;
+  border-radius: 28px;
+  overflow: visible;
 }
 
 .start-project-tally-frame {
   width: 100%;
-  min-height: 1500px;
+  min-height: 2600px;
   display: block;
   border: 0;
-  border-radius: 22px;
+  border-radius: 24px;
   background: #ffffff;
 }
 
 @media (max-width: 760px) {
   .start-project-page {
-    padding: 18px;
+    padding: 18px 12px 0;
   }
 
   .start-project-header {
@@ -157,10 +158,20 @@
   }
 
   .start-project-form-page {
-    padding-top: 56px;
+    padding-top: 16px;
+  }
+
+  .start-project-form-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
   }
 
   .start-project-form-heading h1 {
-    font-size: clamp(2.8rem, 15vw, 4.8rem);
+    font-size: clamp(2.6rem, 14vw, 4rem);
+  }
+
+  .start-project-tally-frame {
+    min-height: 3300px;
   }
 }
