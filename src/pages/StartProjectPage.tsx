@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import "./StartProjectPage.css";
 
 const TALLY_FORM_URL =
-  "https://tally.so/embed/zxOpY0?alignLeft=1&hideTitle=1&dynamicHeight=1";
+  "https://tally.so/embed/zxOpY0?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1";
 const TALLY_SCRIPT_ID = "tally-embed-script";
 const TALLY_SCRIPT_SRC = "https://tally.so/widgets/embed.js";
 
