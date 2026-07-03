@@ -55,15 +55,16 @@ export function StartProjectPage() {
       </header>
 
       <section className="start-project-form-page" aria-labelledby="start-project-title">
-        <div className="start-project-form-heading">
-          <p className="start-project-kicker glass-pill">Client Intake Portal</p>
-
-          <h1 id="start-project-title">Start Your Project</h1>
+        <div className="start-project-form-heading glass-card">
+          <div>
+            <p className="start-project-kicker">Client Intake Portal</p>
+            <h1 id="start-project-title">Project Brief</h1>
+          </div>
 
           <p>
-            Fill this project brief once and attach any screenshots, Excel
-            sheets, PDFs, photos, or workflow documents. We will review it and
-            prepare the roadmap, modules list, estimated scope, and next steps.
+            Fill the form and upload any screenshots, Excel sheets, PDFs,
+            photos, or workflow documents. We will prepare the roadmap, modules,
+            estimated scope, and next steps.
           </p>
         </div>
 
@@ -71,10 +72,9 @@ export function StartProjectPage() {
           <iframe
             className="start-project-tally-frame"
             data-tally-src={TALLY_FORM_URL}
-            src={TALLY_FORM_URL}
             loading="lazy"
             width="100%"
-            height="1500"
+            height="2600"
             title="KingNarmar project intake form"
           />
         </div>
