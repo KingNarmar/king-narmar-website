@@ -132,7 +132,8 @@
   display: block;
   border: 0;
   border-radius: 24px;
-  background: #ffffff;
+  background: transparent;
+  filter: invert(1) hue-rotate(180deg);
 }
 
 @media (max-width: 760px) {
