@@ -1,5 +1,6 @@
 import "./ContactSection.css";
 
+const START_PROJECT_URL = "/start-project";
 const WHATSAPP_URL = "https://wa.me/971581255496";
 const LINKEDIN_URL = "https://www.linkedin.com/in/mina-bushra-733993317/";
 const GITHUB_URL = "https://github.com/KingNarmar";
@@ -81,8 +82,12 @@ export function ContactSection() {
           </p>
 
           <div className="contact-primary-actions">
+            <a className="btn btn-primary" href={START_PROJECT_URL}>
+              Fill Project Brief
+            </a>
+
             <a
-              className="btn btn-primary"
+              className="btn btn-secondary"
               href={WHATSAPP_URL}
               target="_blank"
               rel="noreferrer"
