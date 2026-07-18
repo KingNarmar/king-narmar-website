@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { MinaSystemPage } from "./MinaSystemPage";
 import "./MinaSystemExperiencePage.css";
 
-const PRODUCT_VISUAL_PATH = "/assets/mina-system-product-composite-with-data.png";
+const PRODUCT_VISUAL_PATH = "/assets/mina-system-product-artwork.png";
 
 export function MinaSystemExperiencePage() {
   const [productStage, setProductStage] = useState<HTMLElement | null>(null);
@@ -53,9 +53,9 @@ export function MinaSystemExperiencePage() {
           <figure className="mina-product-artwork">
             <img
               src={PRODUCT_VISUAL_PATH}
-              alt="M.I.N.A System shown on desktop and mobile devices"
-              width="1600"
-              height="980"
+              alt="M.I.N.A System shown on mobile, tablet, and desktop devices"
+              width="1648"
+              height="928"
               loading="eager"
               fetchPriority="high"
             />
