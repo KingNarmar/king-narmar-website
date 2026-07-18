@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { MinaSystemPage } from "./MinaSystemPage";
 import "./MinaSystemExperiencePage.css";
+import "./MinaSystemVisualRefinement.css";
 
 const DESKTOP_METRICS = [
   { label: "Workers", value: "248", note: "Active records", tone: "gold" },
@@ -90,11 +91,6 @@ function ProductInterfaceVisual() {
       <div className="mina-interface-glow mina-interface-glow-gold" aria-hidden="true" />
       <div className="mina-interface-glow mina-interface-glow-blue" aria-hidden="true" />
 
-      <div className="mina-interface-badge" aria-hidden="true">
-        <span />
-        Designed from the live product
-      </div>
-
       <div className="mina-interface-desktop" aria-hidden="true">
         <div className="mina-interface-desktop-bar">
           <div className="mina-interface-window-controls">
@@ -110,22 +106,17 @@ function ProductInterfaceVisual() {
           <aside className="mina-interface-sidebar">
             <div className="mina-interface-sidebar-brand">M</div>
             <div className="mina-interface-sidebar-nav">
-              {[
-                "Dashboard",
-                "Workers",
-                "Tools",
-                "Transactions",
-                "Reports",
-                "Settings",
-              ].map((item, index) => (
-                <div
-                  className={`mina-interface-sidebar-item${index === 0 ? " is-active" : ""}`}
-                  key={item}
-                >
-                  <span className="mina-interface-sidebar-icon" />
-                  <span>{item}</span>
-                </div>
-              ))}
+              {["Dashboard", "Workers", "Tools", "Transactions", "Reports", "Settings"].map(
+                (item, index) => (
+                  <div
+                    className={`mina-interface-sidebar-item${index === 0 ? " is-active" : ""}`}
+                    key={item}
+                  >
+                    <span className="mina-interface-sidebar-icon" />
+                    <span>{item}</span>
+                  </div>
+                ),
+              )}
             </div>
             <div className="mina-interface-user-chip">
               <span>MA</span>
@@ -223,50 +214,54 @@ function ProductInterfaceVisual() {
       <div className="mina-interface-mobile" aria-hidden="true">
         <div className="mina-interface-mobile-speaker" />
         <div className="mina-interface-mobile-screen">
+          <div className="mina-interface-mobile-statusbar">
+            <span>9:41</span>
+            <div><i /><i /><i /></div>
+          </div>
+
           <div className="mina-interface-mobile-header">
-            <div className="mina-interface-mobile-mark">M</div>
-            <div>
-              <small>Demo Company</small>
-              <strong>Dashboard</strong>
-            </div>
-            <span className="mina-interface-mobile-user">MA</span>
+            <button type="button" tabIndex={-1} aria-hidden="true">‹</button>
+            <strong>Dashboard</strong>
+            <span className="mina-interface-mobile-avatar">MA</span>
           </div>
 
           <div className="mina-interface-mobile-body">
             <div className="mina-interface-mobile-summary">
-              {DESKTOP_METRICS.slice(0, 3).map((metric) => (
+              {DESKTOP_METRICS.map((metric) => (
                 <article key={metric.label}>
-                  <span>{metric.label}</span>
+                  <span className={`mobile-metric-dot mobile-metric-${metric.tone}`} />
                   <strong>{metric.value}</strong>
-                  <small>{metric.note}</small>
+                  <small>{metric.label}</small>
                 </article>
               ))}
             </div>
 
-            <article className="mina-interface-mobile-activity">
-              <div>
-                <small>Recent activity</small>
-                <strong>Tool issue</strong>
+            <article className="mina-interface-mobile-list">
+              <div className="mina-interface-mobile-list-heading">
+                <strong>Recent transactions</strong>
+                <span>View all</span>
               </div>
-              <span>Ahmed Hassan</span>
-              <em>Angle Grinder 4.5”</em>
+              {RECENT_TRANSACTIONS.map((transaction, index) => (
+                <div className="mina-interface-mobile-row" key={transaction.worker}>
+                  <span className={`mina-interface-mobile-row-icon row-${index + 1}`} />
+                  <div>
+                    <strong>{transaction.worker}</strong>
+                    <small>{transaction.type}</small>
+                  </div>
+                  <em>{index === 0 ? "Today" : "Yesterday"}</em>
+                </div>
+              ))}
             </article>
-
-            <button type="button" tabIndex={-1}>New transaction</button>
           </div>
 
           <div className="mina-interface-mobile-nav">
-            <span className="is-active" />
-            <span />
-            <span />
-            <span />
+            <span className="is-active"><i /></span>
+            <span><i /></span>
+            <button type="button" tabIndex={-1}>+</button>
+            <span><i /></span>
+            <span><i /></span>
           </div>
         </div>
-      </div>
-
-      <div className="mina-interface-caption" aria-hidden="true">
-        <span>Responsive operations</span>
-        <strong>One workspace. Every screen.</strong>
       </div>
     </div>
   );
