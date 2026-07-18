@@ -1,4 +1,5 @@
 import "./ProjectsSection.css";
+import "./ProjectsSectionLinkStates.css";
 
 type ProjectLink = {
   label: string;
