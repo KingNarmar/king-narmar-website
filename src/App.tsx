@@ -33,8 +33,8 @@ const HorusResetPasswordPage = lazy(() =>
 );
 
 const MinaSystemPage = lazy(() =>
-  import("./pages/MinaSystemPage").then((module) => ({
-    default: module.MinaSystemPage,
+  import("./pages/MinaSystemExperiencePage").then((module) => ({
+    default: module.MinaSystemExperiencePage,
   })),
 );
 
