@@ -1,0 +1,52 @@
+.mina-product-stage > :not(.mina-product-artwork) {
+  display: none !important;
+}
+
+.mina-product-artwork {
+  width: min(780px, 100%);
+  margin: 0;
+  position: relative;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+.mina-product-artwork::before,
+.mina-product-artwork::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(88px);
+  pointer-events: none;
+}
+
+.mina-product-artwork::before {
+  width: 340px;
+  height: 340px;
+  top: 10%;
+  left: 3%;
+  background: rgba(212, 175, 55, 0.22);
+}
+
+.mina-product-artwork::after {
+  width: 420px;
+  height: 420px;
+  right: -5%;
+  bottom: 2%;
+  background: rgba(56, 189, 248, 0.18);
+}
+
+.mina-product-artwork img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 38px 70px rgba(0, 0, 0, 0.38));
+}
+
+@media (max-width: 760px) {
+  .mina-product-artwork {
+    width: min(680px, 100%);
+  }
+}

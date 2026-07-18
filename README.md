@@ -29,9 +29,20 @@ Completed MVP sections:
 - Projects section
 - Contact section with real links
 - Custom domain and SSL enabled
+- Dedicated M.I.N.A System product landing page
 - Mina System privacy and account deletion pages
 - Mina System auth confirmation and reset password pages
 - H.O.R.U.S System auth confirmation and reset password pages
+
+## Product Pages
+
+M.I.N.A System routes:
+
+- `/mina-system`
+- `/mina-system/privacy-policy`
+- `/mina-system/account-deletion`
+
+The product page displays the current platform availability accurately. Microsoft Store, Google Play, and Apple App Store buttons remain disabled until an official public listing URL is available.
 
 ## Auth Link Pages
 

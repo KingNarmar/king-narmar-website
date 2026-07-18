@@ -1,0 +1,10 @@
+.project-links .project-link-unavailable {
+  padding: 11px 15px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: var(--radius-pill);
+  color: var(--color-subtle);
+  background: rgba(148, 163, 184, 0.055);
+  font-weight: 900;
+  cursor: not-allowed;
+  user-select: none;
+}

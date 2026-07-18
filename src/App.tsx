@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import "./App.css";
+import { BackToTopButton } from "./components/BackToTopButton";
 import { MinaSystemAccountDeletionPage } from "./pages/MinaSystemAccountDeletionPage";
 import { MinaSystemPrivacyPolicyPage } from "./pages/MinaSystemPrivacyPolicyPage";
 import { StartProjectPage } from "./pages/StartProjectPage";
@@ -29,6 +30,12 @@ const HorusConfirmEmailPage = lazy(() =>
 const HorusResetPasswordPage = lazy(() =>
   import("./pages/HorusResetPasswordPage").then((module) => ({
     default: module.HorusResetPasswordPage,
+  })),
+);
+
+const MinaSystemPage = lazy(() =>
+  import("./pages/MinaSystemExperiencePage").then((module) => ({
+    default: module.MinaSystemExperiencePage,
   })),
 );
 
@@ -70,6 +77,14 @@ function App() {
     );
   }
 
+  if (currentPath === "/mina-system") {
+    return (
+      <Suspense fallback={<PageLoadingFallback />}>
+        <MinaSystemPage />
+      </Suspense>
+    );
+  }
+
   if (currentPath === "/mina-system/privacy-policy") {
     return <MinaSystemPrivacyPolicyPage />;
   }
@@ -83,12 +98,15 @@ function App() {
   }
 
   return (
-    <main className="app-shell">
-      <HeroSection />
-      <ServicesSection />
-      <ProjectsSection />
-      <ContactSection />
-    </main>
+    <>
+      <main className="app-shell">
+        <HeroSection />
+        <ServicesSection />
+        <ProjectsSection />
+        <ContactSection />
+      </main>
+      <BackToTopButton />
+    </>
   );
 }
 
