@@ -1,0 +1,315 @@
+.mina-interface-badge,
+.mina-interface-caption {
+  display: none !important;
+}
+
+.mina-interface-visual {
+  min-height: 590px;
+}
+
+.mina-interface-desktop {
+  width: min(700px, 91%);
+  top: 50%;
+  left: 46%;
+}
+
+.mina-interface-mobile {
+  width: clamp(158px, 25%, 192px);
+  right: -1%;
+  bottom: 34px;
+  padding: 8px;
+  border-radius: 34px;
+  background: linear-gradient(145deg, #111827, #020617 62%, #1e293b);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.62),
+    0 0 42px rgba(56, 189, 248, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  transform: rotate(4deg) translateZ(76px);
+}
+
+.mina-interface-mobile-screen {
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  background: #f7f8fc;
+  overflow: hidden;
+}
+
+.mina-interface-mobile-statusbar {
+  min-height: 24px;
+  padding: 7px 11px 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #111827;
+  background: #ffffff;
+  font-size: 0.42rem;
+  font-weight: 900;
+}
+
+.mina-interface-mobile-statusbar > div {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.mina-interface-mobile-statusbar i {
+  width: 6px;
+  height: 4px;
+  display: block;
+  border-radius: 2px;
+  background: #111827;
+}
+
+.mina-interface-mobile-statusbar i:nth-child(2) {
+  width: 8px;
+  height: 5px;
+}
+
+.mina-interface-mobile-statusbar i:nth-child(3) {
+  width: 10px;
+  height: 6px;
+}
+
+.mina-interface-mobile-header {
+  min-height: 42px;
+  padding: 4px 10px 8px;
+  display: grid;
+  grid-template-columns: 26px 1fr 26px;
+  align-items: center;
+  color: #111827;
+  background: #ffffff;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.mina-interface-mobile-header button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  color: #334155;
+  background: transparent;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.mina-interface-mobile-header > strong {
+  justify-self: center;
+  font-size: 0.66rem;
+}
+
+.mina-interface-mobile-avatar {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #0f172a;
+  background: linear-gradient(135deg, #fde68a, #facc15);
+  font-size: 0.45rem;
+  font-weight: 1000;
+}
+
+.mina-interface-mobile-body {
+  flex: 1;
+  padding: 10px 9px 12px;
+  background:
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.06), transparent 38%),
+    #f7f8fc;
+}
+
+.mina-interface-mobile-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.mina-interface-mobile-summary article {
+  min-height: 64px;
+  padding: 9px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border: 1px solid #e8ebf1;
+  border-radius: 13px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.045);
+}
+
+.mina-interface-mobile-summary strong {
+  color: #111827;
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+.mina-interface-mobile-summary small {
+  margin-top: 4px;
+  color: #94a3b8;
+  font-size: 0.4rem;
+  font-weight: 800;
+}
+
+.mobile-metric-dot {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  border-radius: 6px;
+}
+
+.mobile-metric-gold {
+  background: rgba(245, 158, 11, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.2);
+}
+
+.mobile-metric-blue {
+  background: rgba(59, 130, 246, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.18);
+}
+
+.mobile-metric-violet {
+  background: rgba(139, 92, 246, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.18);
+}
+
+.mobile-metric-green {
+  background: rgba(34, 197, 94, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(34, 197, 94, 0.18);
+}
+
+.mina-interface-mobile-list {
+  margin-top: 9px;
+  padding: 10px;
+  border: 1px solid #e8ebf1;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.mina-interface-mobile-list-heading {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mina-interface-mobile-list-heading strong {
+  color: #111827;
+  font-size: 0.5rem;
+}
+
+.mina-interface-mobile-list-heading span {
+  color: #3b82f6;
+  font-size: 0.36rem;
+  font-weight: 800;
+}
+
+.mina-interface-mobile-row {
+  min-height: 36px;
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  align-items: center;
+  gap: 6px;
+  border-top: 1px solid #f0f2f6;
+}
+
+.mina-interface-mobile-row-icon {
+  width: 21px;
+  height: 21px;
+  border-radius: 7px;
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.mina-interface-mobile-row-icon.row-2 {
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.mina-interface-mobile-row-icon.row-3 {
+  background: rgba(239, 68, 68, 0.11);
+}
+
+.mina-interface-mobile-row strong,
+.mina-interface-mobile-row small {
+  display: block;
+}
+
+.mina-interface-mobile-row strong {
+  color: #1e293b;
+  font-size: 0.4rem;
+}
+
+.mina-interface-mobile-row small {
+  margin-top: 2px;
+  color: #94a3b8;
+  font-size: 0.32rem;
+}
+
+.mina-interface-mobile-row em {
+  color: #94a3b8;
+  font-size: 0.3rem;
+  font-style: normal;
+}
+
+.mina-interface-mobile-nav {
+  min-height: 52px;
+  padding: 6px 12px 8px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  border-top: 1px solid #e8ebf1;
+  background: #ffffff;
+}
+
+.mina-interface-mobile-nav > span {
+  display: grid;
+  place-items: center;
+}
+
+.mina-interface-mobile-nav > span i {
+  width: 15px;
+  height: 15px;
+  display: block;
+  border: 1.5px solid #94a3b8;
+  border-radius: 5px;
+}
+
+.mina-interface-mobile-nav > span.is-active i {
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.12);
+}
+
+.mina-interface-mobile-nav button {
+  width: 31px;
+  height: 31px;
+  justify-self: center;
+  border: 0;
+  border-radius: 50%;
+  color: #111827;
+  background: linear-gradient(135deg, #fde68a, #facc15);
+  box-shadow: 0 8px 18px rgba(212, 175, 55, 0.28);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.mina-back-to-top {
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .mina-interface-visual {
+    min-height: 510px;
+  }
+
+  .mina-interface-desktop {
+    width: 97%;
+    left: 47%;
+  }
+
+  .mina-interface-mobile {
+    width: clamp(142px, 31%, 172px);
+    right: -2%;
+    bottom: 20px;
+  }
+}
