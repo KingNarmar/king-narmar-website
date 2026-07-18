@@ -10,21 +10,27 @@ const MOBILE_SCREENSHOT =
 
 export function MinaSystemExperiencePage() {
   const [productStage, setProductStage] = useState<HTMLElement | null>(null);
-  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(
+    () => window.scrollY > 520,
+  );
 
   useEffect(() => {
-    setProductStage(document.querySelector<HTMLElement>(".mina-product-stage"));
+    const productStageFrame = window.requestAnimationFrame(() => {
+      setProductStage(
+        document.querySelector<HTMLElement>(".mina-product-stage"),
+      );
+    });
 
     const updateBackToTopVisibility = () => {
       setShowBackToTop(window.scrollY > 520);
     };
 
-    updateBackToTopVisibility();
     window.addEventListener("scroll", updateBackToTopVisibility, {
       passive: true,
     });
 
     return () => {
+      window.cancelAnimationFrame(productStageFrame);
       window.removeEventListener("scroll", updateBackToTopVisibility);
     };
   }, []);
@@ -33,8 +39,7 @@ export function MinaSystemExperiencePage() {
     <>
       <MinaSystemPage />
 
-      {productStage &&
-        createPortal(<RealProductPreview />, productStage)}
+      {productStage && createPortal(<RealProductPreview />, productStage)}
 
       <a
         className={`mina-back-to-top${showBackToTop ? " is-visible" : ""}`}
@@ -59,8 +64,14 @@ function RealProductPreview() {
       aria-label="Real M.I.N.A System dashboard shown on desktop and mobile devices"
     >
       <div className="mina-real-preview-grid" aria-hidden="true" />
-      <div className="mina-real-preview-glow mina-real-preview-glow-gold" aria-hidden="true" />
-      <div className="mina-real-preview-glow mina-real-preview-glow-blue" aria-hidden="true" />
+      <div
+        className="mina-real-preview-glow mina-real-preview-glow-gold"
+        aria-hidden="true"
+      />
+      <div
+        className="mina-real-preview-glow mina-real-preview-glow-blue"
+        aria-hidden="true"
+      />
 
       <div className="mina-real-preview-label">
         <span className="mina-real-preview-label-dot" />
