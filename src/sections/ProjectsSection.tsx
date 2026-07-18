@@ -1,5 +1,10 @@
 import "./ProjectsSection.css";
 
+type ProjectLink = {
+  label: string;
+  href?: string;
+};
+
 type Project = {
   title: string;
   subtitle: string;
@@ -7,10 +12,7 @@ type Project = {
   solution: string;
   technology: string[];
   value: string;
-  links: {
-    label: string;
-    href: string;
-  }[];
+  links: ProjectLink[];
 };
 
 const PROJECTS: Project[] = [
@@ -24,10 +26,7 @@ const PROJECTS: Project[] = [
     technology: ["Flutter", "Dart", "Supabase", "Cubit", "Clean Architecture"],
     value:
       "Built to become a sellable multi-company system that improves control, reduces manual work, and creates clear accountability.",
-    links: [
-      { label: "GitHub", href: "#" },
-      { label: "Demo", href: "#" },
-    ],
+    links: [{ label: "Explore M.I.N.A System", href: "/mina-system" }],
   },
   {
     title: "Tools Tracking Demo",
@@ -39,10 +38,7 @@ const PROJECTS: Project[] = [
     technology: ["Flutter", "Dart", "Drift", "SQLite", "PDF Reports"],
     value:
       "Saved 10+ manual hours weekly and improved accountability for 200+ tools through clear custody records.",
-    links: [
-      { label: "GitHub", href: "#" },
-      { label: "Demo", href: "#" },
-    ],
+    links: [{ label: "Demo unavailable" }],
   },
   {
     title: "Excel Workforce Scheduler",
@@ -54,10 +50,7 @@ const PROJECTS: Project[] = [
     technology: ["Excel", "VBA", "UserForms", "Automation", "Reports"],
     value:
       "Helps teams reduce scheduling mistakes, detect shortages, and distribute work fairly across equivalent workers.",
-    links: [
-      { label: "Download", href: "#" },
-      { label: "Demo", href: "#" },
-    ],
+    links: [{ label: "Download unavailable" }],
   },
 ];
 
@@ -123,11 +116,17 @@ export function ProjectsSection() {
               </div>
 
               <div className="project-links" aria-label={`${project.title} links`}>
-                {project.links.map((link) => (
-                  <a key={link.label} href={link.href} aria-disabled="true">
-                    {link.label} Placeholder
-                  </a>
-                ))}
+                {project.links.map((link) =>
+                  link.href ? (
+                    <a key={link.label} href={link.href}>
+                      {link.label}
+                    </a>
+                  ) : (
+                    <span className="project-link-unavailable" key={link.label}>
+                      {link.label}
+                    </span>
+                  ),
+                )}
               </div>
             </article>
           ))}
