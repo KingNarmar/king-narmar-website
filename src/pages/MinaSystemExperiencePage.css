@@ -1,83 +1,81 @@
-.mina-product-stage > :not(.mina-real-product-preview) {
+.mina-product-stage > :not(.mina-interface-visual) {
   display: none !important;
 }
 
-.mina-real-product-preview,
-.mina-real-product-preview * {
+.mina-interface-visual,
+.mina-interface-visual * {
   box-sizing: border-box;
 }
 
-.mina-real-product-preview {
-  width: min(760px, 100%);
-  min-height: 610px;
+.mina-interface-visual {
+  width: min(780px, 100%);
+  min-height: 620px;
   position: relative;
   isolation: isolate;
-  overflow: visible;
-  perspective: 1600px;
+  perspective: 1700px;
 }
 
-.mina-real-preview-grid {
+.mina-interface-grid {
   position: absolute;
-  inset: 7% -3% 9% 2%;
-  z-index: -3;
-  border: 1px solid rgba(255, 255, 255, 0.065);
-  border-radius: 42px;
+  inset: 4% -2% 4% 0;
+  z-index: -4;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 48px;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: radial-gradient(circle at center, black 20%, transparent 84%);
-  transform: rotate(-2deg);
+    linear-gradient(rgba(255, 255, 255, 0.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.032) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(circle at center, black 20%, transparent 86%);
+  transform: rotate(-1.5deg);
 }
 
-.mina-real-preview-glow {
+.mina-interface-glow {
   position: absolute;
-  z-index: -2;
+  z-index: -3;
   border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.34;
+  filter: blur(80px);
   pointer-events: none;
 }
 
-.mina-real-preview-glow-gold {
+.mina-interface-glow-gold {
   width: 330px;
   height: 330px;
-  top: 5%;
-  left: -5%;
-  background: rgba(212, 175, 55, 0.68);
+  top: 1%;
+  left: 3%;
+  background: rgba(212, 175, 55, 0.26);
 }
 
-.mina-real-preview-glow-blue {
-  width: 390px;
-  height: 390px;
-  right: -8%;
-  bottom: 0;
-  background: rgba(56, 189, 248, 0.52);
+.mina-interface-glow-blue {
+  width: 420px;
+  height: 420px;
+  right: -6%;
+  bottom: -2%;
+  background: rgba(56, 189, 248, 0.2);
 }
 
-.mina-real-preview-label {
+.mina-interface-badge {
   position: absolute;
-  top: 42px;
-  left: 6%;
-  z-index: 8;
-  padding: 9px 13px;
+  top: 26px;
+  left: 5%;
+  z-index: 10;
+  padding: 9px 14px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid rgba(134, 239, 172, 0.25);
+  border: 1px solid rgba(134, 239, 172, 0.23);
   border-radius: var(--radius-pill);
   color: #bbf7d0;
-  background: rgba(5, 15, 16, 0.75);
-  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(16px);
+  background: rgba(4, 18, 18, 0.76);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(18px);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.mina-real-preview-label-dot {
+.mina-interface-badge span {
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -85,193 +83,698 @@
   box-shadow: 0 0 14px rgba(74, 222, 128, 0.9);
 }
 
-.mina-real-desktop-shell {
-  width: min(700px, 93%);
+.mina-interface-desktop {
+  width: min(710px, 92%);
   position: absolute;
-  top: 51%;
-  left: 48%;
+  top: 50%;
+  left: 47%;
   z-index: 3;
-  border: 1px solid rgba(255, 255, 255, 0.19);
-  border-radius: 28px;
-  background: rgba(3, 7, 18, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 30px;
+  background: #050812;
   box-shadow:
-    0 48px 120px rgba(0, 0, 0, 0.58),
+    0 52px 130px rgba(0, 0, 0, 0.58),
     0 0 90px rgba(56, 189, 248, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
   overflow: hidden;
-  transform: translate(-50%, -50%) rotateY(-7deg) rotateX(2deg);
+  transform: translate(-50%, -50%) rotateY(-6deg) rotateX(2deg);
   transform-style: preserve-3d;
 }
 
-.mina-real-desktop-topbar {
+.mina-interface-desktop-bar {
   min-height: 48px;
   padding: 0 16px;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.085);
-  color: var(--color-muted);
-  background:
-    linear-gradient(180deg, rgba(30, 41, 59, 0.94), rgba(15, 23, 42, 0.88));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+  background: linear-gradient(180deg, #1b2437, #111827);
   font-size: 0.72rem;
 }
 
-.mina-real-desktop-topbar strong {
-  color: #dbeafe;
+.mina-interface-desktop-bar > strong {
   letter-spacing: 0.03em;
 }
 
-.mina-real-window-controls {
+.mina-interface-window-controls {
   display: flex;
   gap: 7px;
 }
 
-.mina-real-window-controls span {
+.mina-interface-window-controls span {
   width: 9px;
   height: 9px;
   border-radius: 50%;
   background: #fb7185;
-  box-shadow: 0 0 12px rgba(251, 113, 133, 0.2);
 }
 
-.mina-real-window-controls span:nth-child(2) {
+.mina-interface-window-controls span:nth-child(2) {
   background: #facc15;
 }
 
-.mina-real-window-controls span:nth-child(3) {
+.mina-interface-window-controls span:nth-child(3) {
   background: #4ade80;
 }
 
-.mina-real-live-pill {
+.mina-interface-workspace-chip {
   justify-self: end;
-  padding: 6px 9px;
-  border: 1px solid rgba(34, 197, 94, 0.24);
+  padding: 6px 10px;
+  border: 1px solid rgba(34, 197, 94, 0.22);
   border-radius: var(--radius-pill);
   color: #86efac;
   background: rgba(34, 197, 94, 0.08);
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-weight: 900;
 }
 
-.mina-real-desktop-screen {
-  position: relative;
-  aspect-ratio: 1109 / 543;
-  background: #060a12;
-  overflow: hidden;
+.mina-interface-desktop-layout {
+  min-height: 430px;
+  display: grid;
+  grid-template-columns: 145px minmax(0, 1fr);
+  background: #f1f5f9;
 }
 
-.mina-real-desktop-screen::after {
-  content: "";
-  position: absolute;
-  inset: 0;
+.mina-interface-sidebar {
+  padding: 17px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(148, 163, 184, 0.14);
   background:
-    linear-gradient(120deg, rgba(255, 255, 255, 0.11), transparent 22%, transparent 72%, rgba(56, 189, 248, 0.06));
-  pointer-events: none;
+    radial-gradient(circle at top, rgba(212, 175, 55, 0.1), transparent 32%),
+    #111827;
 }
 
-.mina-real-desktop-screen img {
-  width: 100%;
-  height: 100%;
+.mina-interface-sidebar-brand {
+  width: 38px;
+  height: 38px;
+  margin: 0 0 18px 6px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: #07080d;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-soft));
+  box-shadow: 0 12px 26px rgba(212, 175, 55, 0.18);
+  font-size: 1rem;
+  font-weight: 1000;
+}
+
+.mina-interface-sidebar-nav {
+  display: grid;
+  gap: 5px;
+}
+
+.mina-interface-sidebar-item {
+  min-height: 36px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-radius: 10px;
+  color: #94a3b8;
+  font-size: 0.63rem;
+  font-weight: 800;
+}
+
+.mina-interface-sidebar-item.is-active {
+  color: #fff7d6;
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.06));
+  box-shadow: inset 3px 0 0 var(--color-gold);
+}
+
+.mina-interface-sidebar-icon {
+  width: 15px;
+  height: 15px;
+  border: 1px solid currentColor;
+  border-radius: 5px;
+  opacity: 0.8;
+}
+
+.mina-interface-user-chip {
+  margin-top: auto;
+  padding: 10px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.mina-interface-user-chip > span {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  color: #0f172a;
+  background: #e2e8f0;
+  font-size: 0.58rem;
+  font-weight: 1000;
+}
+
+.mina-interface-user-chip strong,
+.mina-interface-user-chip small {
   display: block;
-  object-fit: cover;
-  object-position: center;
 }
 
-.mina-real-desktop-reflection {
-  height: 10px;
-  position: absolute;
-  right: 12%;
-  bottom: -24px;
-  left: 12%;
-  border-radius: 50%;
-  background: rgba(56, 189, 248, 0.28);
-  filter: blur(18px);
-  opacity: 0.65;
+.mina-interface-user-chip strong {
+  color: #e2e8f0;
+  font-size: 0.57rem;
 }
 
-.mina-real-mobile-shell {
-  width: clamp(150px, 27%, 205px);
+.mina-interface-user-chip small {
+  margin-top: 2px;
+  color: #64748b;
+  font-size: 0.5rem;
+}
+
+.mina-interface-dashboard {
+  min-width: 0;
+  padding: 22px;
+  color: #0f172a;
+  background:
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.08), transparent 34%),
+    #f8fafc;
+}
+
+.mina-interface-dashboard-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.mina-interface-dashboard-heading small,
+.mina-interface-dashboard-heading h3 {
+  display: block;
+}
+
+.mina-interface-dashboard-heading small {
+  color: #64748b;
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mina-interface-dashboard-heading h3 {
+  margin: 4px 0 0;
+  font-size: 1.18rem;
+  letter-spacing: -0.04em;
+}
+
+.mina-interface-dashboard-heading button {
+  padding: 9px 13px;
+  border: 0;
+  border-radius: 10px;
+  color: #111827;
+  background: linear-gradient(135deg, #facc15, #fde68a);
+  box-shadow: 0 10px 24px rgba(212, 175, 55, 0.17);
+  font-size: 0.58rem;
+  font-weight: 1000;
+}
+
+.mina-interface-metrics {
+  margin-top: 17px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.mina-interface-metric {
+  min-width: 0;
+  padding: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 9px 26px rgba(15, 23, 42, 0.055);
+}
+
+.mina-interface-metric-icon {
+  width: 23px;
+  min-width: 23px;
+  height: 23px;
+  border-radius: 8px;
+  background: currentColor;
+  opacity: 0.13;
+}
+
+.mina-interface-metric span,
+.mina-interface-metric strong,
+.mina-interface-metric small {
+  display: block;
+}
+
+.mina-interface-metric span {
+  color: #64748b;
+  font-size: 0.49rem;
+  font-weight: 800;
+}
+
+.mina-interface-metric strong {
+  margin-top: 3px;
+  color: #0f172a;
+  font-size: 0.9rem;
+}
+
+.mina-interface-metric small {
+  margin-top: 2px;
+  color: #94a3b8;
+  font-size: 0.43rem;
+}
+
+.mina-interface-metric-gold {
+  color: #d4af37;
+}
+
+.mina-interface-metric-blue {
+  color: #38bdf8;
+}
+
+.mina-interface-metric-violet {
+  color: #8b5cf6;
+}
+
+.mina-interface-metric-green {
+  color: #22c55e;
+}
+
+.mina-interface-dashboard-lower {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(150px, 0.75fr);
+  gap: 12px;
+}
+
+.mina-interface-panel {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.055);
+}
+
+.mina-interface-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.mina-interface-panel-heading small,
+.mina-interface-panel-heading strong {
+  display: block;
+}
+
+.mina-interface-panel-heading small {
+  color: #94a3b8;
+  font-size: 0.46rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.mina-interface-panel-heading strong {
+  margin-top: 3px;
+  font-size: 0.7rem;
+}
+
+.mina-interface-panel-heading > span {
+  color: #2563eb;
+  font-size: 0.5rem;
+  font-weight: 900;
+}
+
+.mina-interface-table-head,
+.mina-interface-table-row {
+  display: grid;
+  grid-template-columns: 1.35fr 0.9fr 0.62fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.mina-interface-table-head {
+  margin-top: 12px;
+  padding: 0 5px 7px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #94a3b8;
+  font-size: 0.43rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.mina-interface-table-row {
+  min-height: 42px;
+  padding: 7px 5px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #475569;
+  font-size: 0.48rem;
+}
+
+.mina-interface-table-row:last-child {
+  border-bottom: 0;
+}
+
+.mina-interface-table-row > div {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.mina-interface-table-row strong {
+  overflow: hidden;
+  color: #1e293b;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mina-interface-avatar {
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: #fff;
+  background: linear-gradient(135deg, #d4af37, #38bdf8);
+  font-size: 0.42rem;
+  font-weight: 1000;
+}
+
+.avatar-2 {
+  background: linear-gradient(135deg, #38bdf8, #8b5cf6);
+}
+
+.avatar-3 {
+  background: linear-gradient(135deg, #22c55e, #38bdf8);
+}
+
+.mina-interface-status {
+  width: fit-content;
+  padding: 4px 6px;
+  border-radius: 999px;
+  color: #15803d;
+  background: #dcfce7;
+  font-size: 0.42rem;
+  font-weight: 900;
+}
+
+.mina-interface-status.is-review {
+  color: #a16207;
+  background: #fef3c7;
+}
+
+.mina-interface-actions-grid {
+  margin-top: 13px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.mina-interface-action {
+  min-height: 73px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  border: 1px solid #e2e8f0;
+  border-radius: 13px;
+  background: #f8fafc;
+}
+
+.mina-interface-action > span {
+  width: 25px;
+  height: 25px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.22), rgba(250, 204, 21, 0.08));
+}
+
+.mina-interface-action strong {
+  color: #334155;
+  font-size: 0.48rem;
+}
+
+.action-2 > span {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.23), rgba(56, 189, 248, 0.07));
+}
+
+.action-3 > span {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.22), rgba(139, 92, 246, 0.07));
+}
+
+.action-4 > span {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.22), rgba(34, 197, 94, 0.07));
+}
+
+.mina-interface-mobile {
+  width: 183px;
   padding: 9px;
   position: absolute;
-  right: 0;
-  bottom: 36px;
-  z-index: 6;
-  border: 1px solid rgba(255, 255, 255, 0.21);
-  border-radius: 34px;
-  background:
-    linear-gradient(145deg, #1e293b, #030712 58%, #111827);
+  right: -1%;
+  bottom: 20px;
+  z-index: 7;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 37px;
+  background: linear-gradient(145deg, #273449, #030712 56%, #111827);
   box-shadow:
-    0 34px 80px rgba(0, 0, 0, 0.6),
-    0 0 55px rgba(56, 189, 248, 0.17),
-    inset 0 1px 0 rgba(255, 255, 255, 0.14);
-  transform: rotate(5deg) translateZ(70px);
+    0 38px 85px rgba(0, 0, 0, 0.62),
+    0 0 58px rgba(56, 189, 248, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transform: rotate(4deg) translateZ(78px);
 }
 
-.mina-real-mobile-speaker {
+.mina-interface-mobile-speaker {
   width: 34%;
   height: 5px;
   margin: 0 auto 7px;
-  border-radius: var(--radius-pill);
+  border-radius: 999px;
   background: rgba(148, 163, 184, 0.42);
 }
 
-.mina-real-mobile-screen {
+.mina-interface-mobile-screen {
+  min-height: 365px;
   position: relative;
-  aspect-ratio: 494 / 981;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 25px;
-  background: #050812;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.08), transparent 30%),
+    #f8fafc;
   overflow: hidden;
 }
 
-.mina-real-mobile-screen img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  object-position: center;
-}
-
-.mina-real-mobile-glare {
+.mina-interface-mobile-screen::after {
+  content: "";
   position: absolute;
-  inset: 8px;
-  border-radius: 25px;
-  background: linear-gradient(125deg, rgba(255, 255, 255, 0.13), transparent 28%, transparent 68%);
+  inset: 0;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.24), transparent 26%, transparent 72%);
   pointer-events: none;
 }
 
-.mina-real-preview-caption {
-  position: absolute;
-  bottom: 30px;
-  left: 4%;
-  z-index: 7;
-  padding: 13px 16px;
-  border: 1px solid rgba(212, 175, 55, 0.22);
-  border-radius: 18px;
-  background: rgba(7, 8, 13, 0.78);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.32);
-  backdrop-filter: blur(18px);
+.mina-interface-mobile-header {
+  padding: 15px 13px 12px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  color: #0f172a;
 }
 
-.mina-real-preview-caption span,
-.mina-real-preview-caption strong {
+.mina-interface-mobile-mark,
+.mina-interface-mobile-user {
+  width: 29px;
+  height: 29px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  font-size: 0.55rem;
+  font-weight: 1000;
+}
+
+.mina-interface-mobile-mark {
+  color: #111827;
+  background: linear-gradient(135deg, #facc15, #fde68a);
+}
+
+.mina-interface-mobile-user {
+  color: #fff;
+  background: #111827;
+}
+
+.mina-interface-mobile-header small,
+.mina-interface-mobile-header strong {
   display: block;
 }
 
-.mina-real-preview-caption span {
+.mina-interface-mobile-header small {
+  color: #94a3b8;
+  font-size: 0.42rem;
+}
+
+.mina-interface-mobile-header strong {
+  margin-top: 2px;
+  font-size: 0.66rem;
+}
+
+.mina-interface-mobile-body {
+  padding: 0 12px 56px;
+}
+
+.mina-interface-mobile-summary {
+  display: grid;
+  gap: 8px;
+}
+
+.mina-interface-mobile-summary article {
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.045);
+}
+
+.mina-interface-mobile-summary span,
+.mina-interface-mobile-summary strong,
+.mina-interface-mobile-summary small {
+  display: block;
+}
+
+.mina-interface-mobile-summary span {
+  color: #64748b;
+  font-size: 0.43rem;
+  font-weight: 800;
+}
+
+.mina-interface-mobile-summary strong {
+  margin-top: 2px;
+  color: #0f172a;
+  font-size: 0.78rem;
+}
+
+.mina-interface-mobile-summary small {
+  margin-top: 1px;
+  color: #94a3b8;
+  font-size: 0.38rem;
+}
+
+.mina-interface-mobile-activity {
+  margin-top: 9px;
+  padding: 10px;
+  border: 1px solid #dbeafe;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #eff6ff, #fff);
+}
+
+.mina-interface-mobile-activity div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.mina-interface-mobile-activity small {
+  color: #60a5fa;
+  font-size: 0.38rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.mina-interface-mobile-activity strong {
+  color: #1e3a8a;
+  font-size: 0.45rem;
+}
+
+.mina-interface-mobile-activity > span,
+.mina-interface-mobile-activity em {
+  display: block;
+}
+
+.mina-interface-mobile-activity > span {
+  margin-top: 7px;
+  color: #334155;
+  font-size: 0.47rem;
+  font-weight: 900;
+}
+
+.mina-interface-mobile-activity em {
+  margin-top: 2px;
+  color: #64748b;
+  font-size: 0.4rem;
+  font-style: normal;
+}
+
+.mina-interface-mobile-body > button {
+  width: 100%;
+  margin-top: 9px;
+  padding: 9px;
+  border: 0;
+  border-radius: 11px;
+  color: #111827;
+  background: linear-gradient(135deg, #facc15, #fde68a);
+  font-size: 0.48rem;
+  font-weight: 1000;
+}
+
+.mina-interface-mobile-nav {
+  height: 46px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  place-items: center;
+  border-top: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+}
+
+.mina-interface-mobile-nav span {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #94a3b8;
+  border-radius: 6px;
+}
+
+.mina-interface-mobile-nav span.is-active {
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.12);
+}
+
+.mina-interface-caption {
+  position: absolute;
+  bottom: 21px;
+  left: 4%;
+  z-index: 8;
+  padding: 13px 16px;
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  border-radius: 18px;
+  background: rgba(7, 8, 13, 0.8);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(18px);
+}
+
+.mina-interface-caption span,
+.mina-interface-caption strong {
+  display: block;
+}
+
+.mina-interface-caption span {
   color: var(--color-gold);
   font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-size: 0.62rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.mina-real-preview-caption strong {
+.mina-interface-caption strong {
   margin-top: 4px;
   color: #f8fafc;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
 }
 
 .mina-back-to-top {
@@ -292,11 +795,12 @@
   box-shadow:
     0 20px 55px rgba(0, 0, 0, 0.36),
     0 0 34px rgba(212, 175, 55, 0.18);
+  font: inherit;
   font-size: 0.8rem;
   font-weight: 1000;
-  text-decoration: none;
   opacity: 0;
   visibility: hidden;
+  cursor: pointer;
   transform: translateY(18px) scale(0.94);
   transition:
     opacity 180ms ease,
@@ -334,142 +838,99 @@
 }
 
 @media (max-width: 1100px) {
-  .mina-real-product-preview {
-    width: min(720px, 100%);
+  .mina-interface-visual {
+    width: min(730px, 100%);
   }
 
-  .mina-real-mobile-shell {
-    right: 1%;
+  .mina-interface-desktop {
+    width: 94%;
+  }
+
+  .mina-interface-mobile {
+    right: 0;
   }
 }
 
 @media (max-width: 760px) {
-  .mina-real-product-preview {
-    min-height: 520px;
+  .mina-interface-visual {
+    min-height: 535px;
   }
 
-  .mina-real-preview-label {
-    top: 26px;
+  .mina-interface-badge {
+    top: 18px;
     left: 2%;
   }
 
-  .mina-real-desktop-shell {
-    width: 98%;
+  .mina-interface-desktop {
+    width: 99%;
     top: 48%;
     left: 48%;
     border-radius: 22px;
-    transform: translate(-50%, -50%) rotateY(-4deg) rotateX(1deg);
+    transform: translate(-50%, -50%) rotateY(-3deg) rotateX(1deg);
   }
 
-  .mina-real-desktop-topbar {
-    min-height: 40px;
-    padding-inline: 12px;
+  .mina-interface-desktop-layout {
+    min-height: 360px;
+    grid-template-columns: 100px minmax(0, 1fr);
   }
 
-  .mina-real-mobile-shell {
-    width: clamp(132px, 31%, 175px);
-    right: -1%;
-    bottom: 28px;
-    border-radius: 29px;
+  .mina-interface-sidebar-item {
+    padding-inline: 7px;
   }
 
-  .mina-real-mobile-screen,
-  .mina-real-mobile-glare {
-    border-radius: 21px;
-  }
-
-  .mina-real-preview-caption {
-    bottom: 20px;
-    left: 0;
-    padding: 10px 12px;
-  }
-
-  .mina-back-to-top {
-    width: 50px;
-    min-height: 50px;
-    padding: 0;
-    right: 16px;
-    bottom: 16px;
-  }
-
-  .mina-back-to-top span {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-}
-
-@media (max-width: 520px) {
-  .mina-real-product-preview {
-    min-height: 440px;
-  }
-
-  .mina-real-preview-grid {
-    inset: 10% -2% 10% 0;
-  }
-
-  .mina-real-preview-label {
-    top: 18px;
-    font-size: 0.58rem;
-  }
-
-  .mina-real-desktop-shell {
-    top: 46%;
-    left: 49%;
-    border-radius: 18px;
-  }
-
-  .mina-real-desktop-topbar {
-    min-height: 34px;
-    font-size: 0.57rem;
-  }
-
-  .mina-real-window-controls span {
-    width: 7px;
-    height: 7px;
-  }
-
-  .mina-real-live-pill {
+  .mina-interface-sidebar-item > span:last-child,
+  .mina-interface-user-chip div {
     display: none;
   }
 
-  .mina-real-mobile-shell {
-    width: 32%;
-    min-width: 112px;
-    padding: 6px;
+  .mina-interface-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mina-interface-dashboard-lower {
+    grid-template-columns: 1fr;
+  }
+
+  .mina-interface-actions-panel {
+    display: none;
+  }
+
+  .mina-interface-mobile {
+    width: 145px;
     right: -2%;
-    bottom: 24px;
-    border-radius: 25px;
+    bottom: 17px;
+    border-radius: 30px;
   }
 
-  .mina-real-mobile-screen,
-  .mina-real-mobile-glare {
-    border-radius: 18px;
+  .mina-interface-mobile-screen {
+    min-height: 290px;
+    border-radius: 22px;
   }
 
-  .mina-real-preview-caption {
-    max-width: 190px;
+  .mina-interface-mobile-summary article:nth-child(3),
+  .mina-interface-mobile-activity {
+    display: none;
+  }
+
+  .mina-interface-caption {
+    bottom: 17px;
+    left: 1%;
+  }
+
+  .mina-back-to-top {
+    right: 14px;
     bottom: 14px;
+    width: 48px;
+    padding: 0;
   }
 
-  .mina-real-preview-caption strong {
-    font-size: 0.75rem;
+  .mina-back-to-top span {
+    display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .mina-back-to-top {
     transition: none;
-  }
-
-  .mina-real-desktop-shell,
-  .mina-real-mobile-shell {
-    transform-style: flat;
   }
 }
