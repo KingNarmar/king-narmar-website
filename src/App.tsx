@@ -32,6 +32,12 @@ const HorusResetPasswordPage = lazy(() =>
   })),
 );
 
+const MinaSystemPage = lazy(() =>
+  import("./pages/MinaSystemPage").then((module) => ({
+    default: module.MinaSystemPage,
+  })),
+);
+
 function App() {
   const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
 
@@ -66,6 +72,14 @@ function App() {
     return (
       <Suspense fallback={<PageLoadingFallback />}>
         <HorusResetPasswordPage />
+      </Suspense>
+    );
+  }
+
+  if (currentPath === "/mina-system") {
+    return (
+      <Suspense fallback={<PageLoadingFallback />}>
+        <MinaSystemPage />
       </Suspense>
     );
   }
