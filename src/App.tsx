@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import "./App.css";
+import { BackToTopButton } from "./components/BackToTopButton";
 import { MinaSystemAccountDeletionPage } from "./pages/MinaSystemAccountDeletionPage";
 import { MinaSystemPrivacyPolicyPage } from "./pages/MinaSystemPrivacyPolicyPage";
 import { StartProjectPage } from "./pages/StartProjectPage";
@@ -97,12 +98,15 @@ function App() {
   }
 
   return (
-    <main className="app-shell">
-      <HeroSection />
-      <ServicesSection />
-      <ProjectsSection />
-      <ContactSection />
-    </main>
+    <>
+      <main className="app-shell">
+        <HeroSection />
+        <ServicesSection />
+        <ProjectsSection />
+        <ContactSection />
+      </main>
+      <BackToTopButton />
+    </>
   );
 }
 
