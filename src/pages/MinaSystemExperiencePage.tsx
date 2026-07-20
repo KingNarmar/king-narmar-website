@@ -90,7 +90,7 @@ function activateWindowsStoreAvailability() {
   const originalWindowsStatus = windowsStatus?.textContent ?? "";
   const originalWindowsStatusStyle = windowsStatus?.style.cssText ?? "";
   const originalWindowsDescription = windowsDescription?.textContent ?? "";
-  const originalButtonHidden = disabledButton.hidden;
+  const originalButtonStyle = disabledButton.style.cssText;
 
   if (heroStatus) {
     heroStatus.textContent = "Available on Microsoft Store";
@@ -139,12 +139,12 @@ function activateWindowsStoreAvailability() {
     storeLink.appendChild(child.cloneNode(true));
   }
 
-  disabledButton.hidden = true;
+  disabledButton.style.display = "none";
   windowsCard.appendChild(storeLink);
 
   return () => {
     storeLink.remove();
-    disabledButton.hidden = originalButtonHidden;
+    disabledButton.style.cssText = originalButtonStyle;
 
     if (heroStatus) {
       heroStatus.textContent = originalHeroStatus;
