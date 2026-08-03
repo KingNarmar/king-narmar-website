@@ -7,6 +7,8 @@ import "./MinaSystemExperiencePage.css";
 const PRODUCT_VISUAL_PATH = "/assets/mina-system-product-artwork.png";
 const MICROSOFT_STORE_URL =
   "https://apps.microsoft.com/detail/9NFCTDV1SZJG";
+const GOOGLE_PLAY_URL =
+  "https://play.google.com/store/apps/details?id=com.minasystem.app";
 
 export function MinaSystemExperiencePage() {
   const [productStage, setProductStage] = useState<HTMLElement | null>(null);
@@ -28,7 +30,7 @@ export function MinaSystemExperiencePage() {
       return;
     }
 
-    return activateWindowsStoreAvailability();
+    return activatePublishedStoreAvailability();
   }, [productStage]);
 
   return (
@@ -55,12 +57,18 @@ export function MinaSystemExperiencePage() {
   );
 }
 
-function activateWindowsStoreAvailability() {
-  const heroStatus = document.querySelector<HTMLElement>(
+function activatePublishedStoreAvailability() {
+  const windowsHeroStatus = document.querySelector<HTMLElement>(
     ".mina-status-row article:first-child small",
   );
-  const heroDot = document.querySelector<HTMLElement>(
+  const windowsHeroDot = document.querySelector<HTMLElement>(
     ".mina-status-row article:first-child .mina-status-dot",
+  );
+  const androidHeroStatus = document.querySelector<HTMLElement>(
+    ".mina-status-row article:nth-child(2) small",
+  );
+  const androidHeroDot = document.querySelector<HTMLElement>(
+    ".mina-status-row article:nth-child(2) .mina-status-dot",
   );
   const availabilityHeadline = document.querySelector<HTMLElement>(
     ".mina-availability-section .mina-section-heading h2 span",
@@ -71,87 +79,114 @@ function activateWindowsStoreAvailability() {
   const windowsCard = document.querySelector<HTMLElement>(
     ".mina-store-card-windows",
   );
+  const androidCard = document.querySelector<HTMLElement>(
+    ".mina-store-card-android",
+  );
   const windowsStatus = windowsCard?.querySelector<HTMLElement>(
     ".mina-store-status",
   );
+  const androidStatus = androidCard?.querySelector<HTMLElement>(
+    ".mina-store-status",
+  );
   const windowsDescription = windowsCard?.querySelector<HTMLElement>("p");
-  const disabledButton = windowsCard?.querySelector<HTMLButtonElement>(
+  const androidDescription = androidCard?.querySelector<HTMLElement>("p");
+  const windowsButton = windowsCard?.querySelector<HTMLButtonElement>(
+    ".mina-store-button",
+  );
+  const androidButton = androidCard?.querySelector<HTMLButtonElement>(
     ".mina-store-button",
   );
 
-  if (!windowsCard || !disabledButton) {
+  if (!windowsCard || !windowsButton || !androidCard || !androidButton) {
     return undefined;
   }
 
-  const originalHeroStatus = heroStatus?.textContent ?? "";
-  const originalHeroDotStyle = heroDot?.style.cssText ?? "";
+  const originalWindowsHeroStatus = windowsHeroStatus?.textContent ?? "";
+  const originalWindowsHeroDotStyle = windowsHeroDot?.style.cssText ?? "";
+  const originalAndroidHeroStatus = androidHeroStatus?.textContent ?? "";
+  const originalAndroidHeroDotStyle = androidHeroDot?.style.cssText ?? "";
   const originalAvailabilityHeadline = availabilityHeadline?.textContent ?? "";
   const originalAvailabilityCopy = availabilityCopy?.textContent ?? "";
   const originalWindowsStatus = windowsStatus?.textContent ?? "";
   const originalWindowsStatusStyle = windowsStatus?.style.cssText ?? "";
+  const originalAndroidStatus = androidStatus?.textContent ?? "";
+  const originalAndroidStatusStyle = androidStatus?.style.cssText ?? "";
   const originalWindowsDescription = windowsDescription?.textContent ?? "";
-  const originalButtonStyle = disabledButton.style.cssText;
+  const originalAndroidDescription = androidDescription?.textContent ?? "";
+  const originalWindowsButtonStyle = windowsButton.style.cssText;
+  const originalAndroidButtonStyle = androidButton.style.cssText;
 
-  if (heroStatus) {
-    heroStatus.textContent = "Available on Microsoft Store";
+  if (windowsHeroStatus) {
+    windowsHeroStatus.textContent = "Available on Microsoft Store";
   }
 
-  if (heroDot) {
-    heroDot.style.color = "#22c55e";
-    heroDot.style.background = "currentColor";
+  setAvailableDot(windowsHeroDot);
+
+  if (androidHeroStatus) {
+    androidHeroStatus.textContent = "Available on Google Play";
   }
+
+  setAvailableDot(androidHeroDot);
 
   if (availabilityHeadline) {
-    availabilityHeadline.textContent = "Windows is available now.";
+    availabilityHeadline.textContent =
+      "Windows and Android are available now.";
   }
 
   if (availabilityCopy) {
     availabilityCopy.textContent =
-      "Download M.I.N.A System for Windows from the official Microsoft Store listing. Android and iOS links remain inactive until their public releases are available.";
+      "Download M.I.N.A System from the official Microsoft Store and Google Play listings. The iOS link remains inactive until its public release is available.";
   }
 
-  if (windowsStatus) {
-    windowsStatus.textContent = "Available now";
-    windowsStatus.style.color = "#86efac";
-    windowsStatus.style.background = "rgba(34, 197, 94, 0.09)";
-  }
+  setAvailableStatus(windowsStatus);
+  setAvailableStatus(androidStatus);
 
   if (windowsDescription) {
     windowsDescription.textContent =
       "Available publicly on Microsoft Store for compatible Windows devices.";
   }
 
-  const storeLink = document.createElement("a");
-  storeLink.className = `${disabledButton.className} btn`;
-  storeLink.href = MICROSOFT_STORE_URL;
-  storeLink.target = "_blank";
-  storeLink.rel = "noopener noreferrer";
-  storeLink.setAttribute(
-    "aria-label",
-    "Download M.I.N.A System from Microsoft Store (opens in a new tab)",
-  );
-  storeLink.style.cursor = "pointer";
-  storeLink.style.opacity = "1";
-  storeLink.style.color = "#f8fafc";
-  storeLink.style.textDecoration = "none";
-
-  for (const child of Array.from(disabledButton.childNodes)) {
-    storeLink.appendChild(child.cloneNode(true));
+  if (androidDescription) {
+    androidDescription.textContent =
+      "Available publicly on Google Play for compatible Android devices.";
   }
 
-  disabledButton.style.display = "none";
-  windowsCard.appendChild(storeLink);
+  const microsoftStoreLink = createStoreLink(
+    windowsButton,
+    MICROSOFT_STORE_URL,
+    "Download M.I.N.A System from Microsoft Store (opens in a new tab)",
+  );
+  const googlePlayLink = createStoreLink(
+    androidButton,
+    GOOGLE_PLAY_URL,
+    "Download M.I.N.A System from Google Play (opens in a new tab)",
+  );
+
+  windowsButton.style.display = "none";
+  androidButton.style.display = "none";
+  windowsCard.appendChild(microsoftStoreLink);
+  androidCard.appendChild(googlePlayLink);
 
   return () => {
-    storeLink.remove();
-    disabledButton.style.cssText = originalButtonStyle;
+    microsoftStoreLink.remove();
+    googlePlayLink.remove();
+    windowsButton.style.cssText = originalWindowsButtonStyle;
+    androidButton.style.cssText = originalAndroidButtonStyle;
 
-    if (heroStatus) {
-      heroStatus.textContent = originalHeroStatus;
+    if (windowsHeroStatus) {
+      windowsHeroStatus.textContent = originalWindowsHeroStatus;
     }
 
-    if (heroDot) {
-      heroDot.style.cssText = originalHeroDotStyle;
+    if (windowsHeroDot) {
+      windowsHeroDot.style.cssText = originalWindowsHeroDotStyle;
+    }
+
+    if (androidHeroStatus) {
+      androidHeroStatus.textContent = originalAndroidHeroStatus;
+    }
+
+    if (androidHeroDot) {
+      androidHeroDot.style.cssText = originalAndroidHeroDotStyle;
     }
 
     if (availabilityHeadline) {
@@ -167,8 +202,59 @@ function activateWindowsStoreAvailability() {
       windowsStatus.style.cssText = originalWindowsStatusStyle;
     }
 
+    if (androidStatus) {
+      androidStatus.textContent = originalAndroidStatus;
+      androidStatus.style.cssText = originalAndroidStatusStyle;
+    }
+
     if (windowsDescription) {
       windowsDescription.textContent = originalWindowsDescription;
     }
+
+    if (androidDescription) {
+      androidDescription.textContent = originalAndroidDescription;
+    }
   };
+}
+
+function setAvailableDot(dot: HTMLElement | null) {
+  if (!dot) {
+    return;
+  }
+
+  dot.style.color = "#22c55e";
+  dot.style.background = "currentColor";
+}
+
+function setAvailableStatus(status: HTMLElement | null | undefined) {
+  if (!status) {
+    return;
+  }
+
+  status.textContent = "Available now";
+  status.style.color = "#86efac";
+  status.style.background = "rgba(34, 197, 94, 0.09)";
+}
+
+function createStoreLink(
+  disabledButton: HTMLButtonElement,
+  href: string,
+  ariaLabel: string,
+) {
+  const storeLink = document.createElement("a");
+  storeLink.className = `${disabledButton.className} btn`;
+  storeLink.href = href;
+  storeLink.target = "_blank";
+  storeLink.rel = "noopener noreferrer";
+  storeLink.setAttribute("aria-label", ariaLabel);
+  storeLink.style.cursor = "pointer";
+  storeLink.style.opacity = "1";
+  storeLink.style.color = "#f8fafc";
+  storeLink.style.textDecoration = "none";
+
+  for (const child of Array.from(disabledButton.childNodes)) {
+    storeLink.appendChild(child.cloneNode(true));
+  }
+
+  return storeLink;
 }
