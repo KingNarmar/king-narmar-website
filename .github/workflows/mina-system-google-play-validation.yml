@@ -56,7 +56,7 @@ jobs:
       - name: Validate route, accessibility, responsiveness, and links
         run: |
           mkdir -p artifacts
-          cat > /tmp/validate-mina-system.mjs <<'EOF'
+          cat > validate-mina-system.mjs <<'EOF'
           import { chromium } from "playwright";
 
           const BASE_URL = "http://127.0.0.1:4173";
@@ -67,9 +67,7 @@ jobs:
             "https://apps.microsoft.com/detail/9NFCTDV1SZJG";
 
           function assert(condition, message) {
-            if (!condition) {
-              throw new Error(message);
-            }
+            if (!condition) throw new Error(message);
           }
 
           const browser = await chromium.launch({ headless: true });
@@ -78,11 +76,8 @@ jobs:
           });
 
           try {
-            const response = await page.goto(MINA_URL, {
-              waitUntil: "networkidle",
-            });
+            const response = await page.goto(MINA_URL, { waitUntil: "networkidle" });
             assert(response?.status() === 200, "Direct /mina-system request must return 200");
-
             await page.reload({ waitUntil: "networkidle" });
             await page.getByText("Available on Google Play", { exact: true }).waitFor();
             console.log("PASS direct refresh and SPA fallback");
@@ -112,9 +107,7 @@ jobs:
             );
             console.log("PASS Microsoft Store state and official URL preserved");
 
-            const iosButton = page.locator(
-              ".mina-store-card-ios .mina-store-button",
-            );
+            const iosButton = page.locator(".mina-store-card-ios .mina-store-button");
             assert(await iosButton.isDisabled(), "iOS Store button must remain disabled");
             await page.getByText("Coming soon", { exact: true }).last().waitFor();
             console.log("PASS iOS Coming Soon state preserved");
@@ -123,13 +116,13 @@ jobs:
             assert(
               !renderedText.includes("closed testing") &&
                 !renderedText.includes("under review"),
-              "Rendered /mina-system page contains obsolete Android release text",
+              "Rendered page contains obsolete Android release text",
             );
             assert(
               (await page.locator('a[href="#"]').count()) === 0,
               "Exact href=\"#\" placeholder found",
             );
-            console.log("PASS obsolete testing copy and href=\"#\" checks");
+            console.log("PASS obsolete release copy and href=\"#\" checks");
 
             const storeLinks = await page
               .locator(".mina-store-grid a")
@@ -138,7 +131,7 @@ jobs:
               storeLinks.length === 2 &&
                 storeLinks.includes(GOOGLE_PLAY_URL) &&
                 storeLinks.includes(MICROSOFT_STORE_URL),
-              `Unexpected or fake Store links found: ${storeLinks.join(", ")}`,
+              `Unexpected Store links found: ${storeLinks.join(", ")}`,
             );
             console.log("PASS no fake Store URLs");
 
@@ -156,9 +149,7 @@ jobs:
                   .map((anchor) => anchor.getAttribute("href"))
                   .filter(
                     (href) =>
-                      href &&
-                      href.startsWith("/") &&
-                      !href.startsWith("//"),
+                      href && href.startsWith("/") && !href.startsWith("//"),
                   ),
               )],
             );
@@ -182,9 +173,7 @@ jobs:
                   document.activeElement.href === expectedHref,
                 GOOGLE_PLAY_URL,
               );
-              if (googleLinkFocused) {
-                break;
-              }
+              if (googleLinkFocused) break;
             }
             assert(googleLinkFocused, "Google Play link is not keyboard reachable");
             const focusStyle = await googlePlayLink.evaluate((element) => {
@@ -202,24 +191,24 @@ jobs:
             );
             console.log("PASS keyboard navigation and visible focus state");
 
-            const viewportCases = [
+            const viewports = [
               { name: "desktop", width: 1440, height: 1000 },
               { name: "tablet", width: 768, height: 1024 },
               { name: "mobile", width: 390, height: 844 },
             ];
-            for (const viewport of viewportCases) {
+            for (const viewport of viewports) {
               await page.setViewportSize({
                 width: viewport.width,
                 height: viewport.height,
               });
               await page.reload({ waitUntil: "networkidle" });
               await page.getByText("Available on Google Play", { exact: true }).waitFor();
-              const horizontalOverflow = await page.evaluate(
+              const overflow = await page.evaluate(
                 () => document.documentElement.scrollWidth - window.innerWidth,
               );
               assert(
-                horizontalOverflow <= 1,
-                `${viewport.name} layout has ${horizontalOverflow}px horizontal overflow`,
+                overflow <= 1,
+                `${viewport.name} layout has ${overflow}px horizontal overflow`,
               );
               assert(
                 await page
@@ -236,7 +225,7 @@ jobs:
 
             await page.emulateMedia({ reducedMotion: "reduce" });
             await page.reload({ waitUntil: "networkidle" });
-            const reducedMotionResult = await page.evaluate(() => {
+            const reducedMotion = await page.evaluate(() => {
               const orb = document.querySelector(".mina-orb");
               const style = orb ? window.getComputedStyle(orb) : null;
               return {
@@ -247,26 +236,19 @@ jobs:
                 animationDuration: style?.animationDuration ?? "0s",
               };
             });
+            assert(reducedMotion.preferenceMatches, "Reduced-motion preference was not applied");
             assert(
-              reducedMotionResult.preferenceMatches,
-              "Reduced-motion media preference was not applied",
-            );
-            assert(
-              reducedMotionResult.animationName === "none" ||
-                reducedMotionResult.animationDuration === "0s",
-              `Decorative animation remains active in reduced-motion mode: ${JSON.stringify(
-                reducedMotionResult,
-              )}`,
+              reducedMotion.animationName === "none" ||
+                reducedMotion.animationDuration === "0s",
+              `Decorative animation remains active: ${JSON.stringify(reducedMotion)}`,
             );
             console.log("PASS reduced-motion verification");
 
             for (const url of [GOOGLE_PLAY_URL, MICROSOFT_STORE_URL]) {
-              const externalResponse = await page.request.get(url, {
-                timeout: 30000,
-              });
+              const externalResponse = await page.request.get(url, { timeout: 30000 });
               assert(
                 externalResponse.status() >= 200 && externalResponse.status() < 400,
-                `Official Store URL is not reachable: ${url} returned ${externalResponse.status()}`,
+                `Official Store URL returned ${externalResponse.status()}: ${url}`,
               );
             }
             console.log("PASS official Store destinations are reachable");
@@ -274,7 +256,8 @@ jobs:
             await browser.close();
           }
           EOF
-          node /tmp/validate-mina-system.mjs
+          node ./validate-mina-system.mjs
+          rm validate-mina-system.mjs
 
       - name: Stop preview
         if: always()
