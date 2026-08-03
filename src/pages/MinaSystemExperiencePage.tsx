@@ -226,7 +226,7 @@ function setAvailableDot(dot: HTMLElement | null) {
   dot.style.background = "currentColor";
 }
 
-function setAvailableStatus(status: HTMLElement | null) {
+function setAvailableStatus(status: HTMLElement | null | undefined) {
   if (!status) {
     return;
   }
