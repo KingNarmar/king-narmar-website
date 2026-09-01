@@ -20,7 +20,7 @@ export function HorusInvitationPage() {
     try {
       await navigator.clipboard.writeText(invitationCode);
       setCopyStatus("copied");
-    } catch (_) {
+    } catch {
       setCopyStatus("error");
     }
   }
