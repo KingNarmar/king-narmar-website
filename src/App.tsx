@@ -33,6 +33,12 @@ const HorusResetPasswordPage = lazy(() =>
   })),
 );
 
+const HorusInvitationPage = lazy(() =>
+  import("./pages/HorusInvitationPage").then((module) => ({
+    default: module.HorusInvitationPage,
+  })),
+);
+
 const MinaSystemPage = lazy(() =>
   import("./pages/MinaSystemExperiencePage").then((module) => ({
     default: module.MinaSystemExperiencePage,
@@ -73,6 +79,14 @@ function App() {
     return (
       <Suspense fallback={<PageLoadingFallback />}>
         <HorusResetPasswordPage />
+      </Suspense>
+    );
+  }
+
+  if (currentPath === "/horus/invitation") {
+    return (
+      <Suspense fallback={<PageLoadingFallback />}>
+        <HorusInvitationPage />
       </Suspense>
     );
   }

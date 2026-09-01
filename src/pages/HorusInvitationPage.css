@@ -1,0 +1,59 @@
+.horus-invitation-card {
+  max-width: 720px;
+}
+
+.horus-invitation-code {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid rgba(56, 189, 248, 0.24);
+  border-radius: 18px;
+  background: rgba(2, 6, 23, 0.72);
+}
+
+.horus-invitation-code code {
+  overflow-wrap: anywhere;
+  color: #e2e8f0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  user-select: all;
+}
+
+.horus-invitation-code button {
+  justify-self: start;
+  min-width: 118px;
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-blue));
+  color: #05060a;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.horus-invitation-code button:focus-visible {
+  outline: 3px solid rgba(56, 189, 248, 0.45);
+  outline-offset: 3px;
+}
+
+.horus-invitation-copy-error {
+  margin: 10px 0 0;
+  color: #fca5a5;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.horus-invitation-page .auth-help-card[dir="rtl"] {
+  text-align: right;
+}
+
+@media (max-width: 560px) {
+  .horus-invitation-code {
+    padding: 14px;
+  }
+
+  .horus-invitation-code button {
+    width: 100%;
+  }
+}
