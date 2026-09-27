@@ -34,6 +34,7 @@ Completed MVP sections:
 - Mina System auth confirmation and reset password pages
 - H.O.R.U.S System auth confirmation and reset password pages
 - H.O.R.U.S System company invitation landing page
+- H.O.R.U.S System privacy, terms, and support pages
 
 ## Product Pages
 
@@ -58,6 +59,9 @@ H.O.R.U.S System routes:
 - `/horus/confirm-email`
 - `/horus/reset-password`
 - `/horus/invitation?token=...`
+- `/horus/privacy-policy`
+- `/horus/terms`
+- `/horus/support`
 
 The H.O.R.U.S invitation page is a presentation-only handoff page. It reads the invitation token from the URL, allows the invited user to copy it, and instructs the user to review and explicitly accept the invitation inside the official H.O.R.U.S application. It does not perform invitation acceptance or authorization itself.
 

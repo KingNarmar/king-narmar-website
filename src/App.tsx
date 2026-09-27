@@ -3,6 +3,9 @@ import "./App.css";
 import { BackToTopButton } from "./components/BackToTopButton";
 import { MinaSystemAccountDeletionPage } from "./pages/MinaSystemAccountDeletionPage";
 import { MinaSystemPrivacyPolicyPage } from "./pages/MinaSystemPrivacyPolicyPage";
+import { HorusPrivacyPolicyPage } from "./pages/HorusPrivacyPolicyPage";
+import { HorusSupportPage } from "./pages/HorusSupportPage";
+import { HorusTermsPage } from "./pages/HorusTermsPage";
 import { StartProjectPage } from "./pages/StartProjectPage";
 import { ContactSection } from "./sections/ContactSection";
 import { HeroSection } from "./sections/HeroSection";
@@ -81,6 +84,18 @@ function App() {
         <HorusResetPasswordPage />
       </Suspense>
     );
+  }
+
+  if (currentPath === "/horus/privacy-policy") {
+    return <HorusPrivacyPolicyPage />;
+  }
+
+  if (currentPath === "/horus/terms") {
+    return <HorusTermsPage />;
+  }
+
+  if (currentPath === "/horus/support") {
+    return <HorusSupportPage />;
   }
 
   if (currentPath === "/horus/invitation") {
