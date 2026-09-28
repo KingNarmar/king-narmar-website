@@ -3,6 +3,7 @@ import "./App.css";
 import { BackToTopButton } from "./components/BackToTopButton";
 import { MinaSystemAccountDeletionPage } from "./pages/MinaSystemAccountDeletionPage";
 import { MinaSystemPrivacyPolicyPage } from "./pages/MinaSystemPrivacyPolicyPage";
+import { HorusAccountDeletionPage } from "./pages/HorusAccountDeletionPage";
 import { HorusPrivacyPolicyPage } from "./pages/HorusPrivacyPolicyPage";
 import { HorusSupportPage } from "./pages/HorusSupportPage";
 import { HorusTermsPage } from "./pages/HorusTermsPage";
@@ -88,6 +89,10 @@ function App() {
 
   if (currentPath === "/horus/privacy-policy") {
     return <HorusPrivacyPolicyPage />;
+  }
+
+  if (currentPath === "/horus/account-deletion") {
+    return <HorusAccountDeletionPage />;
   }
 
   if (currentPath === "/horus/terms") {
