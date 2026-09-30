@@ -4,6 +4,7 @@ import { BackToTopButton } from "./components/BackToTopButton";
 import { MinaSystemAccountDeletionPage } from "./pages/MinaSystemAccountDeletionPage";
 import { MinaSystemPrivacyPolicyPage } from "./pages/MinaSystemPrivacyPolicyPage";
 import { HorusAccountDeletionPage } from "./pages/HorusAccountDeletionPage";
+import { HorusAuthResultPage } from "./pages/HorusAuthResultPage";
 import { HorusPrivacyPolicyPage } from "./pages/HorusPrivacyPolicyPage";
 import { HorusSupportPage } from "./pages/HorusSupportPage";
 import { HorusTermsPage } from "./pages/HorusTermsPage";
@@ -85,6 +86,10 @@ function App() {
         <HorusResetPasswordPage />
       </Suspense>
     );
+  }
+
+  if (currentPath === "/horus/auth/confirmed") {
+    return <HorusAuthResultPage />;
   }
 
   if (currentPath === "/horus/account-deletion") {
