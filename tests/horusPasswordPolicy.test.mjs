@@ -31,5 +31,7 @@ test("both reset locales include the approved password minimum", () => {
     );
     assert.ok(horusResetCopy[locale].messages.success);
     assert.ok(horusResetCopy[locale].messages.signOutFailed);
+    assert.ok(horusResetCopy[locale].messages.signingOut);
+    assert.ok(horusResetCopy[locale].retrySignOut);
   }
 });
