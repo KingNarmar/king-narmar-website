@@ -1,4 +1,5 @@
 export type TokenVerificationOutcome = "verified" | "invalid" | "unconfigured";
+export type SignOutOutcome = "signedOut" | "signOutFailed" | "unconfigured";
 export type PasswordUpdateOutcome =
   | "updated"
   | "updateFailed"
@@ -47,9 +48,20 @@ export class PasswordRecoveryOperations {
       return "updateFailed";
     }
 
+    const result = await this.signOut();
+    return result === "signedOut"
+      ? "updated"
+      : result === "unconfigured"
+        ? "unconfigured"
+        : "signOutFailed";
+  }
+
+  async signOut(): Promise<SignOutOutcome> {
+    if (!this.gateway) return "unconfigured";
+
     try {
       const { error } = await this.gateway.signOut();
-      return error ? "signOutFailed" : "updated";
+      return error ? "signOutFailed" : "signedOut";
     } catch {
       return "signOutFailed";
     }
