@@ -10,6 +10,7 @@ export type HorusResetMessage =
   | "tooShort"
   | "mismatch"
   | "saving"
+  | "signingOut"
   | "updateFailed"
   | "signOutFailed"
   | "success";
@@ -25,6 +26,7 @@ interface ResetPasswordCopy {
   confirmPasswordPlaceholder: string;
   updatePassword: string;
   updating: string;
+  retrySignOut: string;
   backToSite: string;
   securityNoteTitle: string;
   securityNote: string;
@@ -43,6 +45,7 @@ export const horusResetCopy: Record<HorusResetLocale, ResetPasswordCopy> = {
     confirmPasswordPlaceholder: "Confirm new password",
     updatePassword: "Update password",
     updating: "Updating...",
+    retrySignOut: "Retry secure sign-out",
     backToSite: "Back to KING NARMAR",
     securityNoteTitle: "Security note",
     securityNote:
@@ -58,10 +61,11 @@ export const horusResetCopy: Record<HorusResetLocale, ResetPasswordCopy> = {
       tooShort: `Your new password must be at least ${HORUS_PASSWORD_MIN_LENGTH} characters long.`,
       mismatch: "The two passwords do not match.",
       saving: "Updating your password...",
+      signingOut: "Signing out of your recovery session...",
       updateFailed:
         "We could not update your password. Check your new password and try again, or request a fresh reset link.",
       signOutFailed:
-        "Your password was updated, but we could not securely sign out this browser session. Close this tab before signing in to H.O.R.U.S.",
+        "Your password was updated, but secure sign-out failed. Retry sign-out now. If it keeps failing, clear the browser site data for kingnarmar.com before using this browser again.",
       success:
         "Your password has been updated successfully. You can now return to H.O.R.U.S System and sign in with your new password.",
     },
@@ -77,6 +81,7 @@ export const horusResetCopy: Record<HorusResetLocale, ResetPasswordCopy> = {
     confirmPasswordPlaceholder: "أعد إدخال كلمة المرور",
     updatePassword: "تحديث كلمة المرور",
     updating: "جارٍ التحديث...",
+    retrySignOut: "إعادة محاولة تسجيل الخروج الآمن",
     backToSite: "العودة إلى KING NARMAR",
     securityNoteTitle: "ملاحظة أمنية",
     securityNote:
@@ -90,10 +95,11 @@ export const horusResetCopy: Record<HorusResetLocale, ResetPasswordCopy> = {
       tooShort: `يجب ألا تقل كلمة المرور الجديدة عن ${HORUS_PASSWORD_MIN_LENGTH} حرفًا.`,
       mismatch: "كلمتا المرور غير متطابقتين.",
       saving: "جارٍ تحديث كلمة المرور...",
+      signingOut: "جارٍ تسجيل الخروج من جلسة الاستعادة...",
       updateFailed:
         "تعذر تحديث كلمة المرور. راجع كلمة المرور الجديدة وحاول مجددًا، أو اطلب رابط استعادة جديدًا.",
       signOutFailed:
-        "تم تحديث كلمة المرور، لكن تعذر تسجيل الخروج الآمن من جلسة المتصفح. أغلق علامة التبويب قبل تسجيل الدخول إلى H.O.R.U.S.",
+        "تم تحديث كلمة المرور، لكن تعذر تسجيل الخروج الآمن. أعد المحاولة الآن. إذا استمر الفشل، امسح بيانات موقع kingnarmar.com من المتصفح قبل استخدامه مجددًا.",
       success:
         "تم تحديث كلمة المرور بنجاح. يمكنك العودة إلى تطبيق H.O.R.U.S وتسجيل الدخول بكلمة المرور الجديدة.",
     },
