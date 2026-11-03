@@ -79,6 +79,32 @@ test("sign-out failure after update does not falsely report complete success", a
   );
 });
 
+test("retrying sign-out never repeats the password update", async () => {
+  let updates = 0;
+  let signOutAttempts = 0;
+  const recovery = new PasswordRecoveryOperations({
+    async verifyOtp() {
+      return { error: null };
+    },
+    async updateUser() {
+      updates += 1;
+      return { error: null };
+    },
+    async signOut() {
+      signOutAttempts += 1;
+      return { error: signOutAttempts === 1 ? new Error("temporary") : null };
+    },
+  });
+
+  assert.equal(
+    await recovery.updatePasswordAndSignOut("passphrase"),
+    "signOutFailed",
+  );
+  assert.equal(await recovery.signOut(), "signedOut");
+  assert.equal(updates, 1);
+  assert.equal(signOutAttempts, 2);
+});
+
 test("successful update requires a successful sign-out", async () => {
   const actions = [];
   const recovery = new PasswordRecoveryOperations({
