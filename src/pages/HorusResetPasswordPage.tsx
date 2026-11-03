@@ -119,6 +119,24 @@ export function HorusResetPasswordPage() {
     }
   }
 
+  async function handleRetrySignOut() {
+    if (page.message !== "signOutFailed" || submissionPending.current) return;
+
+    submissionPending.current = true;
+    setPage({ status: "saving", message: "signingOut" });
+    const outcome = await horusPasswordRecoveryService.signOut();
+    submissionPending.current = false;
+
+    if (outcome === "signedOut") {
+      setPage({ status: "success", message: "success" });
+    } else {
+      setPage({
+        status: "error",
+        message: outcome === "unconfigured" ? "unconfigured" : "signOutFailed",
+      });
+    }
+  }
+
   const copy = horusResetCopy[locale];
   const isFormDisabled = page.status !== "ready";
 
@@ -197,6 +215,16 @@ export function HorusResetPasswordPage() {
                 : copy.updatePassword}
             </button>
           </form>
+        )}
+
+        {page.status === "error" && page.message === "signOutFailed" && (
+          <button
+            className="auth-link-button"
+            type="button"
+            onClick={handleRetrySignOut}
+          >
+            {copy.retrySignOut}
+          </button>
         )}
 
         {page.status === "success" && (
