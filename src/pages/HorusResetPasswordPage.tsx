@@ -1,167 +1,213 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
-import { horusSupabase } from "../lib/horusSupabaseClient";
+
+import {
+  HORUS_PASSWORD_MIN_LENGTH,
+  isValidNewPassword,
+} from "../features/horus-auth/domain/passwordPolicy";
+import { horusPasswordRecoveryService } from "../features/horus-auth/data/passwordRecoveryService";
+import type { TokenVerificationOutcome } from "../features/horus-auth/data/passwordRecoveryOperations";
+import {
+  horusResetCopy,
+  type HorusResetLocale,
+  type HorusResetMessage,
+} from "../features/horus-auth/presentation/resetPasswordCopy";
 import "./ResetPasswordPage.css";
 import "./HorusAuthPage.css";
 
 type PageStatus = "checking" | "ready" | "saving" | "success" | "error";
+type PageState = { status: PageStatus; message: HorusResetMessage };
+type VerificationResult = TokenVerificationOutcome | "missingToken";
 
 export function HorusResetPasswordPage() {
-  const [status, setStatus] = useState<PageStatus>("checking");
-  const [message, setMessage] = useState("Checking your H.O.R.U.S reset link...");
+  const [locale, setLocale] = useState<HorusResetLocale>(() =>
+    navigator.language.toLowerCase().startsWith("ar") ? "ar" : "en",
+  );
+  const [page, setPage] = useState<PageState>({
+    status: "checking",
+    message: "checking",
+  });
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const verificationRequest = useRef<Promise<VerificationResult> | null>(null);
+  const submissionPending = useRef(false);
 
   useEffect(() => {
-    async function verifyRecoveryToken() {
-      if (!horusSupabase) {
-        setStatus("error");
-        setMessage(
-          "H.O.R.U.S authentication is not configured on this website yet.",
-        );
-        return;
-      }
-
-      const params = new URLSearchParams(window.location.search);
-      const tokenHash = params.get("token_hash");
+    // Reuse the in-flight verification across React StrictMode effect replay.
+    if (!verificationRequest.current) {
+      const url = new URL(window.location.href);
+      const tokenHash = url.searchParams.get("token_hash");
 
       if (!tokenHash) {
-        setStatus("error");
-        setMessage(
-          "This reset link is missing its secure token. Please request a new password reset email.",
+        verificationRequest.current = Promise.resolve("missingToken");
+      } else {
+        // Do not keep a one-time credential in the browser address bar/history.
+        url.searchParams.delete("token_hash");
+        window.history.replaceState(
+          window.history.state,
+          "",
+          `${url.pathname}${url.search}${url.hash}`,
         );
-        return;
+        verificationRequest.current =
+          horusPasswordRecoveryService.verifyToken(tokenHash);
       }
-
-      const { error } = await horusSupabase.auth.verifyOtp({
-        token_hash: tokenHash,
-        type: "recovery",
-      });
-
-      if (error) {
-        setStatus("error");
-        setMessage(
-          "This reset link is invalid or has expired. Please request a new password reset email.",
-        );
-        return;
-      }
-
-      setStatus("ready");
-      setMessage("Enter a new password for your H.O.R.U.S System account.");
     }
 
-    void verifyRecoveryToken();
+    let active = true;
+    void verificationRequest.current.then((outcome) => {
+      if (!active) return;
+
+      switch (outcome) {
+        case "verified":
+          setPage({ status: "ready", message: "ready" });
+          break;
+        case "unconfigured":
+          setPage({ status: "error", message: "unconfigured" });
+          break;
+        case "missingToken":
+          setPage({ status: "error", message: "missingToken" });
+          break;
+        case "invalid":
+          setPage({ status: "error", message: "invalidToken" });
+          break;
+      }
+    });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (page.status !== "ready" || submissionPending.current) return;
 
-    if (!horusSupabase) {
-      setStatus("error");
-      setMessage("H.O.R.U.S authentication is not configured on this website yet.");
-      return;
-    }
-
-    if (password.length < 8) {
-      setStatus("ready");
-      setMessage("Your new password must be at least 8 characters long.");
+    if (!isValidNewPassword(password)) {
+      setPage({ status: "ready", message: "tooShort" });
       return;
     }
 
     if (password !== confirmPassword) {
-      setStatus("ready");
-      setMessage("The two passwords do not match.");
+      setPage({ status: "ready", message: "mismatch" });
       return;
     }
 
-    setStatus("saving");
-    setMessage("Updating your password...");
+    submissionPending.current = true;
+    setPage({ status: "saving", message: "saving" });
 
-    const { error } = await horusSupabase.auth.updateUser({
-      password,
-    });
+    const outcome =
+      await horusPasswordRecoveryService.updatePasswordAndSignOut(password);
+    submissionPending.current = false;
 
-    if (error) {
-      setStatus("error");
-      setMessage(
-        "We could not update your password. Please request a new reset link and try again.",
-      );
-      return;
+    switch (outcome) {
+      case "updated":
+        setPassword("");
+        setConfirmPassword("");
+        setPage({ status: "success", message: "success" });
+        break;
+      case "signOutFailed":
+        setPassword("");
+        setConfirmPassword("");
+        setPage({ status: "error", message: "signOutFailed" });
+        break;
+      case "unconfigured":
+        setPage({ status: "error", message: "unconfigured" });
+        break;
+      case "updateFailed":
+        setPage({ status: "ready", message: "updateFailed" });
+        break;
     }
-
-    await horusSupabase.auth.signOut();
-
-    setStatus("success");
-    setPassword("");
-    setConfirmPassword("");
-    setMessage(
-      "Your password has been updated successfully. You can now return to H.O.R.U.S System and sign in with your new password.",
-    );
   }
 
-  const isFormDisabled = status !== "ready";
+  const copy = horusResetCopy[locale];
+  const isFormDisabled = page.status !== "ready";
 
   return (
-    <main className="auth-page horus-auth-page">
+    <main
+      className="auth-page horus-auth-page"
+      lang={locale}
+      dir={locale === "ar" ? "rtl" : "ltr"}
+    >
       <section className="auth-card">
+        <div className="horus-reset-language-switch">
+          <button
+            className="horus-reset-language-toggle"
+            type="button"
+            onClick={() => setLocale(locale === "en" ? "ar" : "en")}
+          >
+            {copy.switchLanguage}
+          </button>
+        </div>
+
         <div className="auth-brand">
           <span className="auth-logo">HR</span>
           <div>
             <p>H.O.R.U.S SYSTEM</p>
-            <small>Heavy Operations & Route Unified System</small>
+            <small>Heavy Operations &amp; Route Unified System</small>
           </div>
         </div>
 
-        <p className="auth-kicker">Secure Password Recovery</p>
+        <p className="auth-kicker">{copy.kicker}</p>
 
         <h1>
-          Reset <span>your password</span>
+          {copy.heading} <span>{copy.headingAccent}</span>
         </h1>
 
-        <p className={`auth-message auth-message-${status}`}>{message}</p>
+        <p
+          className={`auth-message auth-message-${page.status}`}
+          role={page.status === "error" ? "alert" : "status"}
+          aria-live="polite"
+        >
+          {copy.messages[page.message]}
+        </p>
 
-        {status !== "success" && (
+        {(page.status === "ready" || page.status === "saving") && (
           <form className="auth-form" onSubmit={handleSubmit}>
-            <label htmlFor="horus-new-password">New password</label>
+            <label htmlFor="horus-new-password">{copy.newPassword}</label>
             <input
               id="horus-new-password"
               type="password"
               autoComplete="new-password"
-              minLength={8}
+              minLength={HORUS_PASSWORD_MIN_LENGTH}
               value={password}
               disabled={isFormDisabled}
               onChange={(event) => setPassword(event.target.value)}
-              placeholder="Enter new password"
+              placeholder={copy.enterPassword}
+              required
             />
 
-            <label htmlFor="horus-confirm-password">Confirm password</label>
+            <label htmlFor="horus-confirm-password">
+              {copy.confirmPassword}
+            </label>
             <input
               id="horus-confirm-password"
               type="password"
               autoComplete="new-password"
-              minLength={8}
+              minLength={HORUS_PASSWORD_MIN_LENGTH}
               value={confirmPassword}
               disabled={isFormDisabled}
               onChange={(event) => setConfirmPassword(event.target.value)}
-              placeholder="Confirm new password"
+              placeholder={copy.confirmPasswordPlaceholder}
+              required
             />
 
             <button type="submit" disabled={isFormDisabled}>
-              {status === "saving" ? "Updating..." : "Update password"}
+              {page.status === "saving"
+                ? copy.updating
+                : copy.updatePassword}
             </button>
           </form>
         )}
 
-        {status === "success" && (
+        {page.status === "success" && (
           <a className="auth-link-button" href="https://kingnarmar.com">
-            Back to KING NARMAR
+            {copy.backToSite}
           </a>
         )}
 
         <div className="auth-help-card">
-          <strong>Security note</strong>
-          If you did not request this password reset, you can safely ignore this
-          page and keep using your current password.
+          <strong>{copy.securityNoteTitle}</strong>
+          {copy.securityNote}
         </div>
       </section>
     </main>
