@@ -1,4 +1,7 @@
-import { HORUS_PASSWORD_MIN_LENGTH } from "../domain/passwordPolicy.ts";
+import {
+  HORUS_PASSWORD_MIN_LENGTH,
+  HORUS_PASSWORD_MAX_UTF8_BYTES,
+} from "../domain/passwordPolicy.ts";
 
 export type HorusResetLocale = "en" | "ar";
 export type HorusResetMessage =
@@ -8,6 +11,7 @@ export type HorusResetMessage =
   | "invalidToken"
   | "ready"
   | "tooShort"
+  | "tooLong"
   | "mismatch"
   | "saving"
   | "signingOut"
@@ -59,6 +63,7 @@ export const horusResetCopy: Record<HorusResetLocale, ResetPasswordCopy> = {
         "This reset link is invalid or has expired. Please request a new password reset email.",
       ready: "Enter a new password for your H.O.R.U.S System account.",
       tooShort: `Your new password must be at least ${HORUS_PASSWORD_MIN_LENGTH} characters long.`,
+      tooLong: `Your new password must not exceed ${HORUS_PASSWORD_MAX_UTF8_BYTES} UTF-8 bytes. Some characters use multiple bytes.`,
       mismatch: "The two passwords do not match.",
       saving: "Updating your password...",
       signingOut: "Signing out of your recovery session...",
@@ -93,6 +98,7 @@ export const horusResetCopy: Record<HorusResetLocale, ResetPasswordCopy> = {
       invalidToken: "رابط الاستعادة غير صالح أو انتهت صلاحيته. اطلب رسالة جديدة.",
       ready: "أدخل كلمة مرور جديدة لحسابك في نظام H.O.R.U.S.",
       tooShort: `يجب ألا تقل كلمة المرور الجديدة عن ${HORUS_PASSWORD_MIN_LENGTH} حرفًا.`,
+      tooLong: `يجب ألا يزيد حجم كلمة المرور عن ${HORUS_PASSWORD_MAX_UTF8_BYTES} بايت بترميز UTF-8؛ بعض الحروف والرموز تشغل أكثر من بايت.`,
       mismatch: "كلمتا المرور غير متطابقتين.",
       saving: "جارٍ تحديث كلمة المرور...",
       signingOut: "جارٍ تسجيل الخروج من جلسة الاستعادة...",
