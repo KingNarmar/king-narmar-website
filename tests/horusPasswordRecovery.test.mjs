@@ -82,6 +82,7 @@ test("sign-out failure after update does not falsely report complete success", a
 test("retrying sign-out never repeats the password update", async () => {
   let updates = 0;
   let signOutAttempts = 0;
+  const signOutScopes = [];
   const recovery = new PasswordRecoveryOperations({
     async verifyOtp() {
       return { error: null };
@@ -90,8 +91,9 @@ test("retrying sign-out never repeats the password update", async () => {
       updates += 1;
       return { error: null };
     },
-    async signOut() {
+    async signOut(input) {
       signOutAttempts += 1;
+      signOutScopes.push(input.scope);
       return { error: signOutAttempts === 1 ? new Error("temporary") : null };
     },
   });
@@ -103,6 +105,7 @@ test("retrying sign-out never repeats the password update", async () => {
   assert.equal(await recovery.signOut(), "signedOut");
   assert.equal(updates, 1);
   assert.equal(signOutAttempts, 2);
+  assert.deepEqual(signOutScopes, ["local", "local"]);
 });
 
 test("successful update requires a successful sign-out", async () => {
@@ -115,11 +118,11 @@ test("successful update requires a successful sign-out", async () => {
       actions.push("update");
       return { error: null };
     },
-    async signOut() {
-      actions.push("signOut");
+    async signOut(input) {
+      actions.push(["signOut", input]);
       return { error: null };
     },
   });
   assert.equal(await recovery.updatePasswordAndSignOut("passphrase"), "updated");
-  assert.deepEqual(actions, ["update", "signOut"]);
+  assert.deepEqual(actions, ["update", ["signOut", { scope: "local" }]]);
 });

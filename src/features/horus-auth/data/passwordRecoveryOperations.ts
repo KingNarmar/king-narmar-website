@@ -13,7 +13,7 @@ export interface PasswordRecoveryAuthGateway {
     type: "recovery";
   }): Promise<{ error: unknown }>;
   updateUser(input: { password: string }): Promise<{ error: unknown }>;
-  signOut(): Promise<{ error: unknown }>;
+  signOut(input: { scope: "local" }): Promise<{ error: unknown }>;
 }
 
 /** Handles recovery mutations without exposing backend errors to the UI. */
@@ -60,7 +60,7 @@ export class PasswordRecoveryOperations {
     if (!this.gateway) return "unconfigured";
 
     try {
-      const { error } = await this.gateway.signOut();
+      const { error } = await this.gateway.signOut({ scope: "local" });
       return error ? "signOutFailed" : "signedOut";
     } catch {
       return "signOutFailed";

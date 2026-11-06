@@ -70,7 +70,7 @@ export const horusResetCopy: Record<HorusResetLocale, ResetPasswordCopy> = {
       updateFailed:
         "We could not update your password. Check your new password and try again, or request a fresh reset link.",
       signOutFailed:
-        "Your password was updated, but secure sign-out failed. Retry sign-out now. If it keeps failing, clear the browser site data for kingnarmar.com before using this browser again.",
+        "Your password was updated, but the temporary recovery session could not be signed out. Retry secure sign-out, or close this tab to discard the in-memory session.",
       success:
         "Your password has been updated successfully. You can now return to H.O.R.U.S System and sign in with your new password.",
     },
@@ -105,7 +105,7 @@ export const horusResetCopy: Record<HorusResetLocale, ResetPasswordCopy> = {
       updateFailed:
         "تعذر تحديث كلمة المرور. راجع كلمة المرور الجديدة وحاول مجددًا، أو اطلب رابط استعادة جديدًا.",
       signOutFailed:
-        "تم تحديث كلمة المرور، لكن تعذر تسجيل الخروج الآمن. أعد المحاولة الآن. إذا استمر الفشل، امسح بيانات موقع kingnarmar.com من المتصفح قبل استخدامه مجددًا.",
+        "تم تحديث كلمة المرور، لكن تعذر تسجيل الخروج من جلسة الاستعادة المؤقتة. أعد محاولة تسجيل الخروج الآمن، أو أغلق علامة التبويب للتخلص من الجلسة المحفوظة في الذاكرة فقط.",
       success:
         "تم تحديث كلمة المرور بنجاح. يمكنك العودة إلى تطبيق H.O.R.U.S وتسجيل الدخول بكلمة المرور الجديدة.",
     },
