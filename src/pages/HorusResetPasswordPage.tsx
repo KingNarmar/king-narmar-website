@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 
 import {
   HORUS_PASSWORD_MIN_LENGTH,
-  isValidNewPassword,
+  validateNewPassword,
 } from "../features/horus-auth/domain/passwordPolicy";
 import { horusPasswordRecoveryService } from "../features/horus-auth/data/passwordRecoveryService";
 import type { TokenVerificationOutcome } from "../features/horus-auth/data/passwordRecoveryOperations";
@@ -82,8 +82,9 @@ export function HorusResetPasswordPage() {
     event.preventDefault();
     if (page.status !== "ready" || submissionPending.current) return;
 
-    if (!isValidNewPassword(password)) {
-      setPage({ status: "ready", message: "tooShort" });
+    const validation = validateNewPassword(password);
+    if (validation !== "valid") {
+      setPage({ status: "ready", message: validation });
       return;
     }
 
