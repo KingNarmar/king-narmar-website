@@ -1,88 +1,62 @@
-import { useEffect, useState } from "react";
-import { horusSupabase } from "../lib/horusSupabaseClient";
+import { useEffect, useRef, useState } from "react";
+import { createEmailConfirmationService } from "../features/horus-auth/data/emailConfirmationService";
+import { takeConfirmationToken } from "../features/horus-auth/presentation/confirmationToken";
+import {
+  confirmationCopy,
+  type ConfirmationLocale,
+  type ConfirmationMessage,
+} from "../features/horus-auth/presentation/emailConfirmationCopy";
 import "./ResetPasswordPage.css";
 import "./HorusAuthPage.css";
 
-type PageStatus = "checking" | "success" | "error";
-
 export function HorusConfirmEmailPage() {
-  const [status, setStatus] = useState<PageStatus>("checking");
-  const [message, setMessage] = useState("Confirming your H.O.R.U.S account...");
+  const [locale, setLocale] = useState<ConfirmationLocale>(() =>
+    navigator.language.toLowerCase().startsWith("ar") ? "ar" : "en",
+  );
+  const [message, setMessage] = useState<ConfirmationMessage>("checking");
+  const attempt = useRef<ReturnType<typeof createEmailConfirmationService> | null>(null);
 
   useEffect(() => {
-    async function confirmEmail() {
-      if (!horusSupabase) {
-        setStatus("error");
-        setMessage(
-          "H.O.R.U.S authentication is not configured on this website yet.",
-        );
-        return;
-      }
-
-      const params = new URLSearchParams(window.location.search);
-      const tokenHash = params.get("token_hash");
-
-      if (!tokenHash) {
-        setStatus("error");
-        setMessage(
-          "This confirmation link is missing its secure token. Please request a new confirmation email.",
-        );
-        return;
-      }
-
-      const { error } = await horusSupabase.auth.verifyOtp({
-        token_hash: tokenHash,
-        type: "signup",
-      });
-
-      if (error) {
-        setStatus("error");
-        setMessage(
-          "This confirmation link is invalid or has expired. Please request a new confirmation email.",
-        );
-        return;
-      }
-
-      await horusSupabase.auth.signOut();
-
-      setStatus("success");
-      setMessage(
-        "Your email has been confirmed successfully. You can now return to H.O.R.U.S System and sign in.",
-      );
-    }
-
-    void confirmEmail();
+    attempt.current ??= createEmailConfirmationService();
+    let active = true;
+    void attempt.current.run(() =>
+      takeConfirmationToken(window.location.href, (path) =>
+        window.history.replaceState(window.history.state, "", path),
+      ),
+    ).then((outcome) => {
+      if (active) setMessage(outcome);
+    });
+    return () => { active = false; };
   }, []);
 
+  const copy = confirmationCopy[locale];
+  const status = message === "checking" ? "checking" : message === "confirmed" ? "success" : "error";
+
   return (
-    <main className="auth-page horus-auth-page">
+    <main className="auth-page horus-auth-page" lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
       <section className="auth-card">
+        <div className="horus-reset-language-switch">
+          <button className="horus-reset-language-toggle" type="button"
+            onClick={() => setLocale(locale === "en" ? "ar" : "en")}>
+            {copy.switchLanguage}
+          </button>
+        </div>
         <div className="auth-brand">
           <span className="auth-logo">HR</span>
           <div>
             <p>H.O.R.U.S SYSTEM</p>
-            <small>Heavy Operations & Route Unified System</small>
+            <small>Heavy Operations &amp; Route Unified System</small>
           </div>
         </div>
-
-        <p className="auth-kicker">Secure Account Verification</p>
-
-        <h1>
-          Confirm <span>your email</span>
-        </h1>
-
-        <p className={`auth-message auth-message-${status}`}>{message}</p>
-
-        {status === "success" && (
-          <a className="auth-link-button" href="https://kingnarmar.com">
-            Back to KING NARMAR
-          </a>
-        )}
-
-        <p className="auth-footer">
-          If you did not create a H.O.R.U.S System account, you can safely ignore
-          this page.
+        <p className="auth-kicker">{copy.kicker}</p>
+        <h1>{copy.heading} <span>{copy.accent}</span></h1>
+        <p className={`auth-message auth-message-${status}`} role={status === "error" ? "alert" : "status"} aria-live="polite">
+          {copy.messages[message]}
         </p>
+        {status === "success" && (
+          <a className="auth-link-button" href="https://kingnarmar.com">{copy.back}</a>
+        )}
+        <p className="auth-footer">{copy.footer}</p>
       </section>
     </main>
   );
