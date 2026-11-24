@@ -5,6 +5,7 @@ import { MinaSystemAccountDeletionPage } from "./pages/MinaSystemAccountDeletion
 import { MinaSystemPrivacyPolicyPage } from "./pages/MinaSystemPrivacyPolicyPage";
 import { HorusAccountDeletionPage } from "./pages/HorusAccountDeletionPage";
 import { HorusAuthResultPage } from "./pages/HorusAuthResultPage";
+import { HORUS_AUTH_RESULT_PATH, type AuthResult } from "./features/horus-auth/presentation/authResult";
 import { HorusPrivacyPolicyPage } from "./pages/HorusPrivacyPolicyPage";
 import { HorusSupportPage } from "./pages/HorusSupportPage";
 import { HorusTermsPage } from "./pages/HorusTermsPage";
@@ -50,7 +51,7 @@ const MinaSystemPage = lazy(() =>
   })),
 );
 
-function App() {
+function App({ authResult }: { authResult: AuthResult }) {
   const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
 
   if (currentPath === "/reset-password") {
@@ -88,8 +89,8 @@ function App() {
     );
   }
 
-  if (currentPath === "/horus/auth/confirmed") {
-    return <HorusAuthResultPage />;
+  if (currentPath === HORUS_AUTH_RESULT_PATH) {
+    return <HorusAuthResultPage outcome={authResult} />;
   }
 
   if (currentPath === "/horus/account-deletion") {

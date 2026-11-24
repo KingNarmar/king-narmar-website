@@ -57,13 +57,14 @@ H.O.R.U.S System routes:
 
 - `/horus/confirm`
 - `/horus/confirm-email`
+- `/horus/auth/confirmed`
 - `/horus/reset-password`
 - `/horus/invitation?token=...`
 - `/horus/privacy-policy`
 - `/horus/terms`
 - `/horus/support`
 
-H.O.R.U.S confirmation and password recovery links require an explicit button activation before contacting Auth to verify a one-time token. Passive link visits do not consume the token. The token is removed from the URL immediately before verification; repeated button activation shares a single request. Expired/used links never imply confirmed success. This reduces email scanner prefetch risk; it is not proof against scanners that simulate user actions. Keep email templates pointed at these landing pages, not direct verification endpoints.
+Legacy H.O.R.U.S token-hash confirmation and password recovery links require an explicit button activation before contacting Auth to verify a one-time token. Passive link visits do not consume the token. The token is removed from the URL immediately before verification; repeated button activation shares a single request. Expired/used links never imply confirmed success. This reduces email scanner prefetch risk; it is not proof against scanners that simulate user actions. Production signup now uses Supabase's standard ConfirmationURL (H.O.R.U.S PR #405), which redirects to the presentation-only result page at `/horus/auth/confirmed`. This route never treats a URL or code as proof of verification, never exchanges a code or creates a session, and discards the query and fragment at bootstrap. Sign in to the native app to establish the actual account status. Password recovery and legacy confirmation handlers retain explicit activation.
 
 The H.O.R.U.S invitation page is a presentation-only handoff page. It reads the invitation token from the URL, allows the invited user to copy it, and instructs the user to review and explicitly accept the invitation inside the official H.O.R.U.S application. It does not perform invitation acceptance or authorization itself.
 
