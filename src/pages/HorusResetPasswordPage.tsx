@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import type { FormEvent } from "react";
 
 import {
@@ -6,6 +6,8 @@ import {
   validateNewPassword,
 } from "../features/horus-auth/domain/passwordPolicy";
 import { horusPasswordRecoveryService } from "../features/horus-auth/data/passwordRecoveryService";
+import { createExplicitTokenAction } from "../features/horus-auth/presentation/explicitTokenAction";
+import { takeConfirmationToken } from "../features/horus-auth/presentation/confirmationToken";
 import type { TokenVerificationOutcome } from "../features/horus-auth/data/passwordRecoveryOperations";
 import {
   horusResetCopy,
@@ -15,7 +17,7 @@ import {
 import "./ResetPasswordPage.css";
 import "./HorusAuthPage.css";
 
-type PageStatus = "checking" | "ready" | "saving" | "success" | "error";
+type PageStatus = "awaitingAction" | "checking" | "ready" | "saving" | "success" | "error";
 type PageState = { status: PageStatus; message: HorusResetMessage };
 type VerificationResult = TokenVerificationOutcome | "missingToken";
 
@@ -23,60 +25,43 @@ export function HorusResetPasswordPage() {
   const [locale, setLocale] = useState<HorusResetLocale>(() =>
     navigator.language.toLowerCase().startsWith("ar") ? "ar" : "en",
   );
-  const [page, setPage] = useState<PageState>({
-    status: "checking",
-    message: "checking",
-  });
+  const [page, setPage] = useState<PageState>(() =>
+    new URL(window.location.href).searchParams.get("token_hash")
+      ? { status: "awaitingAction", message: "awaitingAction" }
+      : { status: "error", message: "missingToken" },
+  );
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const verificationRequest = useRef<Promise<VerificationResult> | null>(null);
+  const verificationAction = useRef<ReturnType<typeof createExplicitTokenAction<VerificationResult>> | null>(null);
   const submissionPending = useRef(false);
 
-  useEffect(() => {
-    // Reuse the in-flight verification across React StrictMode effect replay.
-    if (!verificationRequest.current) {
-      const url = new URL(window.location.href);
-      const tokenHash = url.searchParams.get("token_hash");
-
-      if (!tokenHash) {
-        verificationRequest.current = Promise.resolve("missingToken");
-      } else {
-        // Do not keep a one-time credential in the browser address bar/history.
-        url.searchParams.delete("token_hash");
-        window.history.replaceState(
-          window.history.state,
-          "",
-          `${url.pathname}${url.search}${url.hash}`,
-        );
-        verificationRequest.current =
-          horusPasswordRecoveryService.verifyToken(tokenHash);
-      }
+  async function handleVerify() {
+    if (verificationAction.current || page.status !== "awaitingAction") return;
+    verificationAction.current = createExplicitTokenAction<VerificationResult>(
+      () => takeConfirmationToken(window.location.href, (path) =>
+        window.history.replaceState(window.history.state, "", path),
+      ),
+      (token) => horusPasswordRecoveryService.verifyToken(token),
+      "missingToken",
+      "invalid",
+    );
+    setPage({ status: "checking", message: "checking" });
+    const outcome = await verificationAction.current.activate();
+    switch (outcome) {
+      case "verified":
+        setPage({ status: "ready", message: "ready" });
+        break;
+      case "unconfigured":
+        setPage({ status: "error", message: "unconfigured" });
+        break;
+      case "missingToken":
+        setPage({ status: "error", message: "missingToken" });
+        break;
+      case "invalid":
+        setPage({ status: "error", message: "invalidToken" });
+        break;
     }
-
-    let active = true;
-    void verificationRequest.current.then((outcome) => {
-      if (!active) return;
-
-      switch (outcome) {
-        case "verified":
-          setPage({ status: "ready", message: "ready" });
-          break;
-        case "unconfigured":
-          setPage({ status: "error", message: "unconfigured" });
-          break;
-        case "missingToken":
-          setPage({ status: "error", message: "missingToken" });
-          break;
-        case "invalid":
-          setPage({ status: "error", message: "invalidToken" });
-          break;
-      }
-    });
-
-    return () => {
-      active = false;
-    };
-  }, []);
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -179,6 +164,12 @@ export function HorusResetPasswordPage() {
         >
           {copy.messages[page.message]}
         </p>
+
+        {page.status === "awaitingAction" && (
+          <button className="auth-link-button" type="button" onClick={handleVerify}>
+            {copy.verifyAction}
+          </button>
+        )}
 
         {(page.status === "ready" || page.status === "saving") && (
           <form className="auth-form" onSubmit={handleSubmit}>

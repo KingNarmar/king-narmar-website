@@ -63,6 +63,8 @@ H.O.R.U.S System routes:
 - `/horus/terms`
 - `/horus/support`
 
+H.O.R.U.S confirmation and password recovery links require an explicit button activation before contacting Auth to verify a one-time token. Passive link visits do not consume the token. The token is removed from the URL immediately before verification; repeated button activation shares a single request. Expired/used links never imply confirmed success. This reduces email scanner prefetch risk; it is not proof against scanners that simulate user actions. Keep email templates pointed at these landing pages, not direct verification endpoints.
+
 The H.O.R.U.S invitation page is a presentation-only handoff page. It reads the invitation token from the URL, allows the invited user to copy it, and instructs the user to review and explicitly accept the invitation inside the official H.O.R.U.S application. It does not perform invitation acceptance or authorization itself.
 
 ## Environment Variables
