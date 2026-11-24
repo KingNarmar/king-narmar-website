@@ -5,6 +5,7 @@ import {
 
 export type HorusResetLocale = "en" | "ar";
 export type HorusResetMessage =
+  | "awaitingAction"
   | "checking"
   | "unconfigured"
   | "missingToken"
@@ -24,6 +25,7 @@ interface ResetPasswordCopy {
   kicker: string;
   heading: string;
   headingAccent: string;
+  verifyAction: string;
   newPassword: string;
   confirmPassword: string;
   enterPassword: string;
@@ -43,6 +45,7 @@ export const horusResetCopy: Record<HorusResetLocale, ResetPasswordCopy> = {
     kicker: "Secure Password Recovery",
     heading: "Reset",
     headingAccent: "your password",
+    verifyAction: "Continue to reset password",
     newPassword: "New password",
     confirmPassword: "Confirm password",
     enterPassword: "Enter new password",
@@ -55,6 +58,7 @@ export const horusResetCopy: Record<HorusResetLocale, ResetPasswordCopy> = {
     securityNote:
       "If you did not request this password reset, you can safely ignore this page and keep using your current password.",
     messages: {
+      awaitingAction: "Press the button below to verify your recovery link securely.",
       checking: "Checking your H.O.R.U.S reset link...",
       unconfigured: "H.O.R.U.S authentication is not configured on this website yet.",
       missingToken:
@@ -80,6 +84,7 @@ export const horusResetCopy: Record<HorusResetLocale, ResetPasswordCopy> = {
     kicker: "استعادة كلمة المرور بأمان",
     heading: "إعادة تعيين",
     headingAccent: "كلمة المرور",
+    verifyAction: "متابعة إعادة تعيين كلمة المرور",
     newPassword: "كلمة المرور الجديدة",
     confirmPassword: "تأكيد كلمة المرور",
     enterPassword: "أدخل كلمة المرور الجديدة",
@@ -92,6 +97,7 @@ export const horusResetCopy: Record<HorusResetLocale, ResetPasswordCopy> = {
     securityNote:
       "إذا لم تطلب إعادة تعيين كلمة المرور، يمكنك تجاهل هذه الصفحة والاستمرار في استخدام كلمة المرور الحالية.",
     messages: {
+      awaitingAction: "اضغط على الزر أدناه للتحقق من رابط الاستعادة بأمان.",
       checking: "جارٍ التحقق من رابط استعادة كلمة مرور H.O.R.U.S...",
       unconfigured: "خدمة المصادقة لنظام H.O.R.U.S غير مهيأة على الموقع حاليًا.",
       missingToken: "رابط الاستعادة لا يحتوي على رمز التحقق الآمن. اطلب رسالة جديدة.",

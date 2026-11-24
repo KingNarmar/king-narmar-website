@@ -1,4 +1,6 @@
 import test from "node:test";
+import { readFileSync } from "node:fs";
+import { createExplicitTokenAction } from "../src/features/horus-auth/presentation/explicitTokenAction.ts";
 import assert from "node:assert/strict";
 import { createConfirmationAttempt } from "../src/features/horus-auth/data/emailConfirmationOperations.ts";
 import { takeConfirmationToken } from "../src/features/horus-auth/presentation/confirmationToken.ts";
@@ -66,6 +68,38 @@ test("token is removed before verification and scrub failure fails closed", asyn
 
 test("both locales cover every outcome", () => {
   for (const copy of Object.values(confirmationCopy)) {
-    for (const key of ["checking", "confirmed", "missingToken", "unconfigured", "invalidOrUsed", "verificationFailed", "signOutFailed"]) assert.ok(copy.messages[key]);
+    for (const key of ["awaitingAction", "checking", "confirmed", "missingToken", "unconfigured", "invalidOrUsed", "verificationFailed", "signOutFailed"]) assert.ok(copy.messages[key]);
+  }
+});
+
+test("passive opening never reads or consumes token; explicit activation is single flight", async () => {
+  let reads = 0, verifies = 0;
+  const action = createExplicitTokenAction(
+    () => { reads++; return "synthetic"; },
+    async (token) => { assert.equal(token, "synthetic"); verifies++; return "verified"; },
+    "missing", "failed",
+  );
+  await Promise.resolve();
+  assert.deepEqual([reads, verifies], [0, 0]);
+  const first = action.activate();
+  assert.equal(first, action.activate());
+  assert.equal(await first, "verified");
+  assert.equal(await action.activate(), "verified");
+  assert.deepEqual([reads, verifies], [1, 1]);
+});
+
+test("explicit action fails closed for missing token or URL scrub failure", async () => {
+  const verify = async () => assert.fail("unexpected verification");
+  assert.equal(await createExplicitTokenAction(() => null, verify, "missing", "failed").activate(), "missing");
+  assert.equal(await createExplicitTokenAction(() => { throw Error("history"); }, verify, "missing", "failed").activate(), "failed");
+});
+
+test("both auth pages wire verification exclusively to an explicit button handler", () => {
+  for (const [file, handler] of [["HorusConfirmEmailPage.tsx", "handleConfirm"], ["HorusResetPasswordPage.tsx", "handleVerify"]]) {
+    const source = readFileSync(new URL("../src/pages/" + file, import.meta.url), "utf8");
+    assert.ok(!source.includes("useEffect"));
+    assert.ok(source.includes("onClick={" + handler + "}"));
+    assert.equal(source.match(/\.activate\(\)/g)?.length, 1);
+    assert.ok(source.includes("awaitingAction"));
   }
 });

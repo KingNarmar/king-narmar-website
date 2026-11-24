@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { createEmailConfirmationService } from "../features/horus-auth/data/emailConfirmationService";
+import { createExplicitTokenAction } from "../features/horus-auth/presentation/explicitTokenAction";
 import { takeConfirmationToken } from "../features/horus-auth/presentation/confirmationToken";
 import {
   confirmationCopy,
@@ -13,24 +14,27 @@ export function HorusConfirmEmailPage() {
   const [locale, setLocale] = useState<ConfirmationLocale>(() =>
     navigator.language.toLowerCase().startsWith("ar") ? "ar" : "en",
   );
-  const [message, setMessage] = useState<ConfirmationMessage>("checking");
-  const attempt = useRef<ReturnType<typeof createEmailConfirmationService> | null>(null);
+  const [message, setMessage] = useState<ConfirmationMessage>(() =>
+    new URL(window.location.href).searchParams.get("token_hash") ? "awaitingAction" : "missingToken",
+  );
+  const action = useRef<ReturnType<typeof createExplicitTokenAction<ConfirmationMessage>> | null>(null);
 
-  useEffect(() => {
-    attempt.current ??= createEmailConfirmationService();
-    let active = true;
-    void attempt.current.run(() =>
-      takeConfirmationToken(window.location.href, (path) =>
+  async function handleConfirm() {
+    if (action.current || message !== "awaitingAction") return;
+    action.current = createExplicitTokenAction<ConfirmationMessage>(
+      () => takeConfirmationToken(window.location.href, (path) =>
         window.history.replaceState(window.history.state, "", path),
       ),
-    ).then((outcome) => {
-      if (active) setMessage(outcome);
-    });
-    return () => { active = false; };
-  }, []);
+      (token) => createEmailConfirmationService().run(() => token),
+      "missingToken",
+      "verificationFailed",
+    );
+    setMessage("checking");
+    setMessage(await action.current.activate());
+  }
 
   const copy = confirmationCopy[locale];
-  const status = message === "checking" ? "checking" : message === "confirmed" ? "success" : "error";
+  const status = message === "checking" || message === "awaitingAction" ? "checking" : message === "confirmed" ? "success" : "error";
 
   return (
     <main className="auth-page horus-auth-page" lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
@@ -53,6 +57,11 @@ export function HorusConfirmEmailPage() {
         <p className={`auth-message auth-message-${status}`} role={status === "error" ? "alert" : "status"} aria-live="polite">
           {copy.messages[message]}
         </p>
+        {message === "awaitingAction" && (
+          <button className="auth-link-button" type="button" onClick={handleConfirm}>
+            {copy.confirmAction}
+          </button>
+        )}
         {status === "success" && (
           <a className="auth-link-button" href="https://kingnarmar.com">{copy.back}</a>
         )}
